@@ -5,8 +5,10 @@ export default createGlobalStyle`
   --gray-100:#C1C1C1;
   --gray-300: #9D9D9D;
   --gray-700: #707070;   
-  --background:##F7F7F7;
+  --background:#F7F7F7;
   --green: #B5C401;
+  --white:#FFFFFF;
+  --shape:#EBEBEB;
     
 }
 
@@ -38,6 +40,10 @@ html{
 *, button, input {
   border:0;
   outline:0;
+}
+
+button,input{
+  cursor: pointer;
 }
 
 `;
