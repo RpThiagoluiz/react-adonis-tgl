@@ -1,1 +1,3 @@
-export const AppPage = () => <h1>BRABO!</h1>;
+import { AppGameMod } from "../../components/AppGameMod";
+
+export const AppPage = () => <AppGameMod />;

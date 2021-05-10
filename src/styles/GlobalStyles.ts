@@ -3,13 +3,17 @@ import { createGlobalStyle } from "styled-components";
 export default createGlobalStyle`
 :root {
   --gray-100:#C1C1C1;
+  --gray-200:#E2E2E2;
   --gray-300: #9D9D9D;
-  --gray-700: #707070;   
+  --gray-700: #707070;
+  --gray-800: #868686;
+  --cyan-gray:#adc0c4;
   --background:#F7F7F7;
   --green: #B5C401;
+  --green-900:#27C383;
   --white:#FFFFFF;
   --shape:#EBEBEB;
-    
+
 }
 
 
