@@ -2,12 +2,11 @@ import styled from "styled-components";
 
 export const Container = styled.section`
   grid-area: FM;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  margin-top: 5rem;
 
   > h2 {
     color: var(--gray-700);
@@ -17,7 +16,7 @@ export const Container = styled.section`
     margin-bottom: 26px;
   }
 
-  > .sing-up {
+  > .back {
     width: 100%;
     display: flex;
     align-items: center;
@@ -30,37 +29,43 @@ export const Container = styled.section`
 
     color: var(--gray-700);
     background: transparent;
-
-    > a {
-      color: var(--gray-700);
-      text-decoration: none;
-      margin-right: 16px;
-    }
   }
 `;
 
 export const Form = styled.form`
   position: relative;
-
   box-shadow: 0px 3px 25px rgba(0, 0, 0, 0.078);
   border: 1px solid #dddddd;
   border-radius: 14px;
 
   background: var(--white);
 
-  > a {
+  height: 150px;
+  > p {
     position: absolute;
     bottom: 9.875rem; //158px
     right: 27px;
-
-    text-decoration: none;
 
     font-size: 17px;
     font-style: italic;
     color: var(--gray-100);
   }
+`;
 
-  > .sing-in {
+export const FormContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 360px;
+  height: auto;
+  > label {
+    margin: 34px 0 26px 30px;
+    color: var(--gray-300);
+  }
+  > input {
+    border-bottom: 1px solid var(--shape);
+  }
+
+  > .send-link {
     width: 100%;
     display: flex;
     align-items: center;
@@ -72,28 +77,8 @@ export const Form = styled.form`
     font-style: italic;
     font-size: 35px;
 
-    margin-bottom: 43px;
-
-    > a {
-      text-decoration: none;
-      color: var(--green);
-      > span {
-        margin-right: 16px;
-      }
+    > span {
+      margin-right: 16px;
     }
-  }
-`;
-
-export const FormContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 360px;
-  height: 320px;
-  > label {
-    margin: 34px 0 26px 30px;
-    color: var(--gray-300);
-  }
-  > input {
-    border-bottom: 1px solid var(--shape);
   }
 `;

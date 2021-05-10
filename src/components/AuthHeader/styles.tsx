@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
 export const Container = styled.section`
+  grid-area: AN;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
+  margin-top: -8rem;
   h1,
   h2 {
     color: var(--gray-700);

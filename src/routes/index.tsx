@@ -1,11 +1,16 @@
 import { BrowserRouter } from "react-router-dom";
 import { Footer } from "../components/Footer";
-import {} from "./app.routes";
 import { AuthRoutes } from "./auth.routes";
+import { AppRoutes } from "./app.routes";
+import { AppHeader } from "../components/AppHeader";
+
+//Header so vai aparecer quando o usuario estiver logado.
 
 export const Routes = () => (
   <BrowserRouter>
-    <AuthRoutes />
+    <AppHeader />
+    {/* <AuthRoutes /> */}
+    <AppRoutes />
     <Footer />
   </BrowserRouter>
 );

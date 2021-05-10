@@ -1,11 +1,10 @@
 import { AuthHeader } from "../../components/AuthHeader";
 import { AuthLogin } from "../../components/AuthLogin";
-
-import { Container } from "./styles";
+import { AuthLayout } from "../../layout/auth";
 
 export const AuthPage = () => (
-  <Container>
+  <AuthLayout>
     <AuthHeader />
     <AuthLogin />
-  </Container>
+  </AuthLayout>
 );

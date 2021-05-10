@@ -1,5 +1,4 @@
 import { Container } from "./styles";
-
 export const AuthHeader = () => (
   <Container>
     <section>

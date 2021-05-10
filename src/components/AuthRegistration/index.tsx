@@ -1,30 +1,36 @@
 import { useRef } from "react";
-import { Link } from "react-router-dom";
-import { HiOutlineArrowRight } from "react-icons/hi";
+import { Link, useHistory } from "react-router-dom";
+import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 
-export const AuthLogin = () => {
+export const AuthRegistration = () => {
+  const nameInputRef = useRef(null);
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
+
+  const { push } = useHistory();
+
+  const handlerBackButton = () => {
+    push("/");
+  };
 
   const handleSubmit = () => {
     console.log(`Brabo!`);
   };
 
-  //   const enteredEmail = emailInputRef.current.value;
-  //   const enteredPassword = passwordInputRef.current.value;
-  //   console.log(enteredEmail, enteredPassword);
-  // };
-
   return (
     <Container>
       <h2>
-        <strong>Authentication</strong>
+        <strong>Registration</strong>
       </h2>
       <Form onSubmit={handleSubmit}>
         <FormContent>
+          <label htmlFor="name">Name</label>
+          <input type="text" id="name" required ref={nameInputRef} />
+
           <label htmlFor="email">Email</label>
           <input type="email" id="email" required ref={emailInputRef} />
+
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -32,17 +38,16 @@ export const AuthLogin = () => {
             required
             ref={passwordInputRef}
           />
+
+          <button type="submit" className="registration">
+            <Link to="/app">Registration</Link>
+            <HiOutlineArrowRight />
+          </button>
         </FormContent>
-        <Link to="/resetpassword">I forget my password</Link>
-        <button type="submit" className="sing-in">
-          <Link to="/app">
-            <span>Log In</span>
-          </Link>
-          <HiOutlineArrowRight />
-        </button>
       </Form>
-      <button className="sing-up">
-        <Link to="/singup">Sing Up</Link> <HiOutlineArrowRight />
+      <button className="back" onClick={handlerBackButton}>
+        <HiOutlineArrowLeft />
+        <span>Back</span>
       </button>
     </Container>
   );
