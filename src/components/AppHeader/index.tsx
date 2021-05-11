@@ -1,23 +1,34 @@
+import { useDispatch } from "react-redux";
+import { UserActions } from "../../store/userSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import { Header } from "./styles";
 
-export const AppHeader = () => (
-  <Header>
-    <nav>
-      <h2>TGL</h2>
+export const AppHeader = () => {
+  const dispatch = useDispatch();
 
-      <div className="header-nav-div-center">
-        <NavLink exact to="/">
-          Home
-        </NavLink>
-        <NavLink to="/recentgames">Account</NavLink>
-      </div>
+  const logoutHandler = () => {
+    const { logOut } = UserActions;
 
-      <div className="header-nav-div-end">
-        <NavLink to="/">Log out</NavLink>
-        <HiOutlineArrowRight />
-      </div>
-    </nav>
-  </Header>
-);
+    dispatch(logOut());
+  };
+  return (
+    <Header>
+      <nav>
+        <h2>TGL</h2>
+
+        <div className="header-nav-div-center">
+          <NavLink exact to="/">
+            Home
+          </NavLink>
+          <NavLink to="/recentgames">Account</NavLink>
+        </div>
+
+        <div className="header-nav-div-end" onClick={logoutHandler}>
+          <NavLink to="/">Log out</NavLink>
+          <HiOutlineArrowRight />
+        </div>
+      </nav>
+    </Header>
+  );
+};

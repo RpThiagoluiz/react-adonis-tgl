@@ -77,11 +77,6 @@ export const FormContent = styled.div`
     font-style: italic;
     font-size: 35px;
 
-    > a {
-      margin: 2rem;
-      color: inherit;
-      text-decoration: none;
-      margin-right: 16px;
-    }
+    padding: 32px;
   }
 `;

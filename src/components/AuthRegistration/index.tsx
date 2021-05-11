@@ -3,19 +3,24 @@ import { Link, useHistory } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 
-export const AuthRegistration = () => {
-  const nameInputRef = useRef(null);
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
+interface AuthLoginProps {
+  handlerLogin: (event: any) => void;
+}
 
+export const AuthRegistration = ({ handlerLogin }: AuthLoginProps) => {
   const { push } = useHistory();
 
   const handlerBackButton = () => {
     push("/");
   };
 
-  const handleSubmit = () => {
-    console.log(`Brabo!`);
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    handlerLogin({
+      name: event.currentTarget.name.value,
+      email: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
+    });
   };
 
   return (
@@ -26,21 +31,16 @@ export const AuthRegistration = () => {
       <Form onSubmit={handleSubmit}>
         <FormContent>
           <label htmlFor="name">Name</label>
-          <input type="text" id="name" required ref={nameInputRef} />
+          <input type="text" id="name" required />
 
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <input type="email" id="email" required />
 
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            ref={passwordInputRef}
-          />
+          <input type="password" id="password" required />
 
           <button type="submit" className="registration">
-            <Link to="/app">Registration</Link>
+            Registration
             <HiOutlineArrowRight />
           </button>
         </FormContent>

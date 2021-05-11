@@ -1,8 +1,10 @@
+import { Container } from "./styles";
 import { Link } from "react-router-dom";
 
 export const NotFound = () => (
-  <div>
-    <h1>404 - Not Found!</h1>
+  <Container>
+    <span>404 | Not Found !</span>
+    <span>Link acessado nao encontrado, por favor volte a home.</span>
     <Link to="/">Go Home</Link>
-  </div>
+  </Container>
 );

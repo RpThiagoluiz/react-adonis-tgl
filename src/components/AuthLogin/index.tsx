@@ -1,14 +1,18 @@
-import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 
-export const AuthLogin = () => {
-  const emailInputRef = useRef(null);
-  const passwordInputRef = useRef(null);
+interface AuthLoginProps {
+  handlerLogin: (event: any) => void;
+}
 
-  const handleSubmit = () => {
-    console.log(`Brabo!`);
+export const AuthLogin = ({ handlerLogin }: AuthLoginProps) => {
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    handlerLogin({
+      email: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
+    });
   };
 
   //   const enteredEmail = emailInputRef.current.value;
@@ -24,20 +28,14 @@ export const AuthLogin = () => {
       <Form onSubmit={handleSubmit}>
         <FormContent>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" required ref={emailInputRef} />
+          <input type="email" id="email" required />
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            ref={passwordInputRef}
-          />
+          <input type="password" id="password" required />
         </FormContent>
         <Link to="/resetpassword">I forget my password</Link>
         <button type="submit" className="sing-in">
-          <Link to="/app">
-            <span>Log In</span>
-          </Link>
+          <span>Log In</span>
+
           <HiOutlineArrowRight />
         </button>
       </Form>

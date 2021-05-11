@@ -3,7 +3,11 @@ import { useHistory } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 
-export const AuthResetPass = () => {
+interface AuthLoginProps {
+  handlerLogin: (event: any) => void;
+}
+
+export const AuthResetPass = ({ handlerLogin }: AuthLoginProps) => {
   const emailInputRef = useRef(null);
   const { push } = useHistory();
 
@@ -11,8 +15,11 @@ export const AuthResetPass = () => {
     push("/");
   };
 
-  const handleSubmit = () => {
-    console.log(`Brabo!`);
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    handlerLogin({
+      email: event.currentTarget.email.value,
+    });
   };
 
   return (

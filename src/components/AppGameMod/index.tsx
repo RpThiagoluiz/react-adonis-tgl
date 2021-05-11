@@ -1,27 +1,29 @@
 import axios from "axios";
-
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoCartOutline } from "react-icons/io5";
-
 import { BsTrash } from "react-icons/bs";
-
 import { Container, GridBet, GridCart, Title, Grid } from "./styles";
+import { useEffect, useState } from "react";
 
 export const AppGameMod = () => {
+  const [] = useState();
+
   const handlerInputValue = () => {
     console.log(`click`);
   };
 
-  //useEffect,
-  async function getGameTypes() {
-    try {
-      await axios.get("http://localhost:3333/types").then((response) => {
-        const { data } = response;
-        console.log(data);
-      });
-    } catch (error) {}
-  }
-  getGameTypes();
+  useEffect(() => {
+    async function getGameTypes() {
+      try {
+        await axios.get("http://localhost:3333/types").then((response) => {
+          const { data } = response;
+
+          console.log(data);
+        });
+      } catch (error) {}
+    }
+    getGameTypes();
+  }, []);
 
   //testLength
 
