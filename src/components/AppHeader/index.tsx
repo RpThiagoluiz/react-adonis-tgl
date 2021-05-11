@@ -8,10 +8,10 @@ export const AppHeader = () => (
       <h2>TGL</h2>
 
       <div className="header-nav-div-center">
-        <NavLink exact to="/home">
+        <NavLink exact to="/">
           Home
         </NavLink>
-        <NavLink to="/account">Account</NavLink>
+        <NavLink to="/recentgames">Account</NavLink>
       </div>
 
       <div className="header-nav-div-end">

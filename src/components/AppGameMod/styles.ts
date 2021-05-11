@@ -18,19 +18,23 @@ export const GridBet = styled.section`
     color: var(--gray-800);
   }
 
-  > .grid-bet-container-buttons {
+  > .grid-bet-container-gamer-mode {
     margin: 2rem auto;
-    button {
+    > button {
       width: 120px;
 
       background: transparent;
-      margin-right: 5rem;
-      padding: 0.5rem;
+      margin-right: 1.56rem;
+      padding: 0.5rem 1rem;
       border-radius: 100px;
 
       //Props
       border: 2px solid purple;
       color: purple;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 
@@ -69,6 +73,54 @@ export const GridBet = styled.section`
       border-radius: 50%;
 
       cursor: pointer;
+    }
+  }
+
+  > .grid-bet-container-buttons {
+    //width: 100%;
+    display: flex;
+    align-items: center;
+
+    > .generic-btn {
+      > button {
+        width: 12rem;
+        height: 3.25rem;
+
+        border-radius: 10px;
+        border: 1px solid var(--green-900);
+
+        padding: 1.06rem 1.375rem 1rem 1.562rem;
+
+        font-size: 1rem;
+        color: var(--green-900);
+
+        &:hover {
+          filter: brightness(0.9);
+        }
+
+        &:first-child {
+          margin-right: 25px;
+        }
+      }
+    }
+    > .add-cart {
+      margin-left: 14rem;
+      > button {
+        width: 16rem;
+        height: 3.25rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        font-size: 19px;
+
+        border: none;
+        border-radius: 10px;
+        padding: 1.06rem 1.375rem 1rem 1.562rem;
+        color: var(--white);
+        background-color: var(--green-900);
+      }
     }
   }
 `;
@@ -129,12 +181,24 @@ export const GridCart = styled.aside`
 
       > .grid-cart-item-description {
         border-left: 0.25rem solid pink;
+        border-radius: 5px;
         padding: 0.5rem;
 
         > p {
           width: 15rem;
           word-wrap: break-word;
           margin-bottom: 0.5rem;
+        }
+
+        > span {
+          > strong {
+            font-size: 1rem;
+            font-style: italic;
+            margin-right: 19px;
+          }
+          > span {
+            color: var(--grey-800);
+          }
         }
       }
     }

@@ -49,10 +49,15 @@ export const Header = styled.header`
       justify-content: space-between;
     }
     .header-nav-div-end {
+      /* display: flex;
+      align-items: center; */
       color: var(--gray-700);
       margin-left: 3.625rem;
-      > svg {
+      svg {
+        width: 20px;
+        height: 18px;
         margin-left: 1rem;
+        // margin-bottom: -0.2rem;
       }
     }
   }
