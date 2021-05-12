@@ -1,18 +1,10 @@
 import { ReactNode } from "react";
-import { AuthHeader } from "../../components/AuthHeader";
-import { AuthLogin } from "../../components/AuthLogin";
-import { AuthResetPass } from "../../components/AuthResetPass";
-import { Footer } from "../../components/Footer";
 import { Grid } from "./styles";
 
-interface AuthLayout {
+interface AuthLayoutProps {
   children: ReactNode;
 }
 
-export const AuthLayout = ({ children }: AuthLayout) => <Grid>{children}</Grid>;
-
-{
-  /* <AuthHeader />
-    <AuthLogin />
-    {/* <AuthResetPass /> */
-}
+export const AuthLayout = ({ children }: AuthLayoutProps) => (
+  <Grid>{children}</Grid>
+);

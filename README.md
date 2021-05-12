@@ -16,3 +16,8 @@ px - rem
 **last**
 Responsive
 Refactor
+
+**bugs**
+complete game
+sideEffect, quando retiro um numero.
+footer height

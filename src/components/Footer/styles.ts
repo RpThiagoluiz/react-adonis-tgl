@@ -3,9 +3,8 @@ import styled from "styled-components";
 export const Container = styled.section`
   height: 4.9375rem; //79px
   width: 100%;
-  grid-area: FT;
 
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
 

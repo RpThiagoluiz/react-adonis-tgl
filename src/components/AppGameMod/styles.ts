@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
+interface InputProps {
+  isActive: boolean;
+}
 interface ButtonColorProps {
   color: string;
+  isActive: boolean;
 }
 
 export const Container = styled.section`
@@ -44,24 +48,6 @@ export const GridBet = styled.section`
 
   > .grid-bet-container-gamerange {
     margin-top: 2rem;
-    > input {
-      width: 3rem;
-      height: 3rem;
-
-      margin: 0 1.375rem 1.5rem 0;
-
-      text-align: center;
-      font-size: 1.25rem;
-      font-weight: bold;
-
-      color: #fff;
-      background-color: var(--cyan-gray);
-
-      border: none;
-      border-radius: 50%;
-
-      cursor: pointer;
-    }
   }
 
   > .grid-bet-container-buttons {
@@ -113,6 +99,26 @@ export const GridBet = styled.section`
       }
     }
   }
+`;
+
+export const InputGame = styled.input<InputProps>`
+  width: 3rem;
+  height: 3rem;
+
+  margin: 0 1.375rem 1.5rem 0;
+
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+
+  color: #fff;
+  background-color: ${({ isActive }) =>
+    isActive ? "var(--green-900)" : "var(--cyan-gray)"};
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
 `;
 
 export const Title = styled.section`
@@ -235,8 +241,9 @@ export const ButtonGame = styled.button<ButtonColorProps>`
   border-radius: 100px;
 
   //Props
-  border: 2px solid ${(props) => props.color};
-  color: ${(props) => props.color};
+  border: 1px solid ${(props) => (props.isActive ? "none" : props.color)};
+  color: ${(props) => (props.isActive ? "var(--white)" : props.color)};
+  background: ${(props) => (props.isActive ? props.color : "transparent")};
 
   &:last-child {
     margin-right: 0;
