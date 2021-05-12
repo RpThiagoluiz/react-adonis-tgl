@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RegisTeredUserProps } from "../@types/RegisteredUser";
 
 const initialState: RegisTeredUserProps = {
-  users: [],
+  users: [{ name: "thiago", email: "test@test.com", password: "123" }],
   isLogged: false,
 };
 

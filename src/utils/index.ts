@@ -1,5 +1,5 @@
 export const inputFormatValue = (number: Number) => {
-  return number < 10 ? `0${number}` : number;
+  return number < 10 ? `0${number}` : `${number}`;
 };
 
 export const currencyValue = (value: any) => {
@@ -14,4 +14,10 @@ export const currencyValue = (value: any) => {
   });
 
   return value;
+};
+
+export const dateFormatValue = (date: Date) => {
+  return (
+    date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
+  );
 };

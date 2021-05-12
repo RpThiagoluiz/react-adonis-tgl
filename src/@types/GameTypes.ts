@@ -9,3 +9,6 @@ export interface GameTypesProps {
 }
 
 //dados q eu preciso para manipular a pagina do carrinho tbm.
+export interface GamesApiResponseProps {
+  games: GameTypesProps[] | [];
+}

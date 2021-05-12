@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface ButtonColorProps {
+  color: string;
+}
+
 export const Container = styled.section`
   margin: 2.625rem 8.75rem 1rem 8.75rem;
 `;
@@ -20,22 +24,6 @@ export const GridBet = styled.section`
 
   > .grid-bet-container-gamer-mode {
     margin: 2rem auto;
-    > button {
-      width: 120px;
-
-      background: transparent;
-      margin-right: 1.56rem;
-      padding: 0.5rem 1rem;
-      border-radius: 100px;
-
-      //Props
-      border: 2px solid purple;
-      color: purple;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
   }
 
   > .grid-bet-container-description {
@@ -93,6 +81,8 @@ export const GridBet = styled.section`
 
         font-size: 1rem;
         color: var(--green-900);
+
+        transition: 0.5s ease-in filter;
 
         &:hover {
           filter: brightness(0.9);
@@ -234,4 +224,23 @@ export const GridCart = styled.aside`
       }
     }
   }
+`;
+
+export const ButtonGame = styled.button<ButtonColorProps>`
+  width: 120px;
+
+  background: transparent;
+  margin-right: 1.56rem;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+
+  //Props
+  border: 2px solid ${(props) => props.color};
+  color: ${(props) => props.color};
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  //Active change border, background, color.
 `;

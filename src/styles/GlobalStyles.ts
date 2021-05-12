@@ -13,6 +13,7 @@ export default createGlobalStyle`
   --green-900:#27C383;
   --white:#FFFFFF;
   --shape:#EBEBEB;
+  --spinner: #5ed1a2;
 
 }
 
