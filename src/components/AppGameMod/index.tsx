@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoCartOutline } from "react-icons/io5";
 import { BsTrash } from "react-icons/bs";
@@ -10,11 +10,17 @@ import {
   Grid,
   ButtonGame,
   InputGame,
+  CartItem,
 } from "./styles";
-import { inputFormatValue } from "../../utils";
+import {
+  crescentArrayNumbers,
+  currencyValue,
+  inputFormatValue,
+} from "../../utils";
 import { GameTypesProps } from "../../@types/GameTypes";
 import { api } from "../../services/api";
 import { LoadingSpinner } from "../LoadingSpiner";
+import { GameToAddCartProps } from "../../@types/CartTypes";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -29,6 +35,7 @@ export const AppGameMod = () => {
     "min-cart-value": 0,
   });
   const [selectedNumbers, setSelectedNumbers] = useState<string[]>([]);
+  const [cartsGames, setCartGames] = useState<any[]>([]);
 
   useEffect(() => {
     async function getGames() {
@@ -51,6 +58,11 @@ export const AppGameMod = () => {
     getGames();
   }, []);
 
+  //somente pra check - remover
+  useEffect(() => {
+    console.log(`mudou`);
+  }, [selectedNumbers]);
+
   const handleButtonGameMode = (gameType: string) => {
     setIsLoading(true);
     setSelectedNumbers([]);
@@ -61,12 +73,7 @@ export const AppGameMod = () => {
     setIsLoading(false);
   };
 
-  const existsNumber = (value: string) => {
-    return selectedNumbers.indexOf(value) !== -1 ? true : false;
-  };
-
   const handlerInputValue = (event: any) => {
-    //If i`m need transforme in number.
     let newValue = event.currentTarget.value;
     const indexSelected = selectedNumbers.indexOf(newValue);
     const numExists = indexSelected === -1;
@@ -74,9 +81,9 @@ export const AppGameMod = () => {
       selectedNumbers.length < gameChoice["max-number"];
     try {
       if (numExists && maxNumbersSelected) {
-        setSelectedNumbers([...selectedNumbers, newValue]);
+        setSelectedNumbers((prevState) => [...prevState, newValue]);
       } else if (!numExists) {
-        selectedNumbers.splice(indexSelected, 1);
+        setSelectedNumbers((prevState) => prevState.splice(indexSelected, 1));
       } else {
         throw new Error(
           `Quantidade selecionada, excede a quantidade maxima ${gameChoice["max-number"]}`
@@ -87,9 +94,11 @@ export const AppGameMod = () => {
     }
   };
 
-  //Const verificar se aquele numero exist dentro do array.
+  const existsNumber = (value: string) => {
+    return selectedNumbers.indexOf(value) !== -1 ? true : false;
+  };
 
-  const testLength = () => {
+  const gameBetNumbers = () => {
     const { range } = gameChoice;
     let gameRangeInputs = [];
     for (let index = 1; index <= range; index++) {
@@ -100,7 +109,6 @@ export const AppGameMod = () => {
           isActive={existsNumber(formatedNumber)}
           type="text"
           name=""
-          //id="range-input-${index}"
           value={formatedNumber}
           className="grid-bet-container-range-input"
           onClick={handlerInputValue}
@@ -118,30 +126,51 @@ export const AppGameMod = () => {
     return setSelectedNumbers([]);
   };
 
-  // função que gera números aleatorios.
-  const randomNumber = (numberMax: number) => {
-    return String(Math.ceil(Math.random() * numberMax));
+  //BugHere
+  const handlerCompleteGame = () => {
+    setSelectedNumbers([]);
+    const { range } = gameChoice;
+    let selectArray = [...selectedNumbers];
+
+    if (selectedNumbers.length === gameChoice["max-number"]) {
+      alert(`numero maximo atingido`);
+    } else {
+      while (selectArray.length < gameChoice["max-number"]) {
+        const randomNumber = String(Math.ceil(Math.random() * range));
+
+        selectArray.push(randomNumber);
+        console.log(randomNumber);
+      }
+      setSelectedNumbers((prevState) => [...prevState, ...selectArray]);
+    }
+
+    //console.log(range, randomNumber, completeGame);
   };
 
-  // função que completa os números
-  const handlerCompleteGame = useCallback(() => {
-    const { range } = gameChoice!;
-    let qntNumbersForComplete =
-      gameChoice!["max-number"] - selectedNumbers.length;
-    let allNumbers: string[] = [];
-    while (allNumbers.length < qntNumbersForComplete) {
-      let number = randomNumber(range);
-      if (
-        allNumbers.indexOf(number) === -1 &&
-        selectedNumbers.indexOf(number) === -1
-      ) {
-        allNumbers.push(number);
-      }
-    }
-    console.log(allNumbers);
-    console.log(selectedNumbers);
-    return setSelectedNumbers([...selectedNumbers, ...allNumbers]);
-  }, [randomNumber, gameChoice, selectedNumbers]);
+  const handlerAddCart = () => {
+    //antes de adc, verificar a quantidade de numeros,
+    //verificar carrinho esta correto.
+    //assim que adc, atualizar o valor do total.
+    const { type, price, color } = gameChoice;
+    const newCartGame: GameToAddCartProps = {
+      id: String(new Date().getTime()),
+      type,
+      gameNumbers: selectedNumbers,
+      price,
+      color,
+    };
+
+    setCartGames((prevState) => [...prevState, newCartGame]);
+
+    console.log(newCartGame);
+  };
+
+  const removeItemToCart = (id: string) => {
+    //let cartItems = [...cartsGames]
+    //cartItems.filter(game => game.id !== id)
+    setCartGames((prevState) => prevState.filter((game) => game.id !== id));
+    console.log(`remove ${id}`);
+  };
 
   return (
     <Container>
@@ -151,7 +180,7 @@ export const AppGameMod = () => {
         <Grid>
           <GridBet>
             <Title>
-              <strong>NEW BET</strong> <span>FOR MEGA-SENA</span>
+              <strong>NEW BET</strong> <span>FOR {gameChoice.type}</span>
             </Title>
             <span>Choose a game</span>
             <div className="grid-bet-container-gamer-mode">
@@ -175,7 +204,9 @@ export const AppGameMod = () => {
               <p>{gameChoice.description}</p>
             </div>
 
-            <div className="grid-bet-container-gamerange">{testLength()}</div>
+            <div className="grid-bet-container-gamerange">
+              {gameBetNumbers()}
+            </div>
 
             <section className="grid-bet-container-buttons">
               <div className="generic-btn">
@@ -185,7 +216,7 @@ export const AppGameMod = () => {
                 </button>
               </div>
               <div className="add-cart">
-                <button onClick={() => console.log(`Add to cart`)}>
+                <button onClick={handlerAddCart}>
                   <IoCartOutline style={{ height: "25", width: "25" }} />
                   Add to Cart
                 </button>
@@ -197,20 +228,24 @@ export const AppGameMod = () => {
 
             <div>
               <section className="grid-cart-container-section">
-                <BsTrash onClick={() => console.log(`trash!`)} />
-                <div className="grid-cart-item-description">
-                  <p>1,2,3,1,5,48,4,1251,51,0,4,1251,51,0</p>
-                  <span>
-                    <strong>NomeDoGame</strong>
-                    <span>R$ 2.50</span>
-                  </span>
-                </div>
+                {cartsGames.map((game) => (
+                  <div key={game.id}>
+                    <BsTrash onClick={() => removeItemToCart(game.id)} />
+                    <CartItem color={game.color}>
+                      <p>{crescentArrayNumbers(game.gameNumbers)}</p>
+                      <span>
+                        <strong>{game.type}</strong>
+                        <span>{currencyValue(game.price)}</span>
+                      </span>
+                    </CartItem>
+                  </div>
+                ))}
               </section>
               <section className="grid-cart-total">
                 <span>
                   <strong>CART </strong>
                   TOTAL:
-                  <span>R$ 20,00</span>
+                  <span> {currencyValue(25)}</span>
                 </span>
               </section>
             </div>

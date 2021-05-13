@@ -21,3 +21,13 @@ export const dateFormatValue = (date: Date) => {
     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
   );
 };
+
+export const crescentArrayNumbers = (selectedNumber: any) => {
+  const crescs = (cr1: any, cr2: any) => {
+    return cr1 - cr2;
+  };
+
+  const crescResult = [...selectedNumber];
+
+  return crescResult.sort(crescs);
+};

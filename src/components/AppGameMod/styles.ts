@@ -8,6 +8,10 @@ interface ButtonColorProps {
   isActive: boolean;
 }
 
+interface CartItemProps {
+  color: string;
+}
+
 export const Container = styled.section`
   margin: 2.625rem 8.75rem 1rem 8.75rem;
 `;
@@ -135,7 +139,7 @@ export const GridCart = styled.aside`
   flex-direction: column;
   position: relative;
 
-  width: 380px;
+  width: 420px;
 
   max-height: 500px;
 
@@ -155,46 +159,30 @@ export const GridCart = styled.aside`
 
   > div {
     > .grid-cart-container-section {
-      display: flex;
-      align-items: center;
-
       position: relative;
 
       font-size: 0.937rem;
       color: var(--gray-800);
 
-      margin-left: 1rem;
+      margin-left: 2.5rem;
 
-      > svg {
-        width: 1.5rem;
-        height: 1.75rem;
+      max-height: 10rem;
 
-        opacity: 0.5;
+      overflow-y: auto;
 
-        margin-right: 1.25rem;
-        cursor: pointer;
-      }
+      > div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
 
-      > .grid-cart-item-description {
-        border-left: 0.25rem solid pink;
-        border-radius: 5px;
-        padding: 0.5rem;
+        > svg {
+          width: 1.5rem;
+          height: 1.75rem;
 
-        > p {
-          width: 15rem;
-          word-wrap: break-word;
-          margin-bottom: 0.5rem;
-        }
+          opacity: 0.5;
 
-        > span {
-          > strong {
-            font-size: 1rem;
-            font-style: italic;
-            margin-right: 19px;
-          }
-          > span {
-            color: var(--grey-800);
-          }
+          margin-right: 1.25rem;
+          cursor: pointer;
         }
       }
     }
@@ -228,6 +216,30 @@ export const GridCart = styled.aside`
         width: 24px;
         height: 20px;
       }
+    }
+  }
+`;
+
+export const CartItem = styled.section<CartItemProps>`
+  border-left: 0.25rem solid ${(props) => props.color};
+  border-radius: 5px;
+  padding: 0.5rem;
+
+  > p {
+    width: 15rem;
+    word-wrap: break-word;
+    margin-bottom: 0.5rem;
+  }
+
+  > span {
+    > strong {
+      font-size: 1rem;
+      font-style: italic;
+      margin-right: 19px;
+      color: ${(props) => props.color};
+    }
+    > span {
+      color: var(--green-800);
     }
   }
 `;
