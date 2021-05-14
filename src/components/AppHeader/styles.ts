@@ -39,16 +39,16 @@ export const Header = styled.header`
         font-weight: bold;
         text-decoration: none;
 
-        font-size: 22px;
+        font-size: 1.4rem;
       }
     }
 
-    .header-nav-div-center {
-      width: 70%;
+    > .header-nav-div-center {
+      width: 65%;
       display: flex;
       justify-content: space-between;
     }
-    .header-nav-div-end {
+    > .header-nav-div-end {
       /* display: flex;
       align-items: center; */
       color: var(--gray-700);
@@ -60,5 +60,9 @@ export const Header = styled.header`
         // margin-bottom: -0.2rem;
       }
     }
+  }
+
+  @media (max-width: 780px) {
+    //Burger Button
   }
 `;

@@ -13,6 +13,7 @@ interface CartItemProps {
 }
 
 export const Container = styled.section`
+  height: auto;
   margin: 2.625rem 8.75rem 1rem 8.75rem;
 `;
 
@@ -55,11 +56,11 @@ export const GridBet = styled.section`
   }
 
   > .grid-bet-container-buttons {
-    //width: 100%;
     display: flex;
     align-items: center;
 
     > .generic-btn {
+      width: 28rem;
       > button {
         width: 12rem;
         height: 3.25rem;

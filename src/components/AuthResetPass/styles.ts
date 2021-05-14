@@ -23,12 +23,19 @@ export const Container = styled.section`
     justify-content: center;
 
     margin-top: 80px;
-    font-size: 35px;
+    font-size: 2.2rem;
     font-weight: bold;
     font-style: italic;
 
     color: var(--gray-700);
     background: transparent;
+  }
+
+  @media (max-width: 1024px) {
+    margin-top: 2rem;
+    > h2 {
+      font-size: 1.2rem;
+    }
   }
 `;
 
@@ -55,8 +62,8 @@ export const Form = styled.form`
 export const FormContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 360px;
-  height: auto;
+  width: 24rem;
+
   > label {
     margin: 34px 0 26px 30px;
     color: var(--gray-300);
@@ -75,10 +82,24 @@ export const FormContent = styled.div`
     color: var(--green);
     font-weight: bold;
     font-style: italic;
-    font-size: 35px;
+    font-size: 2.1rem;
+
+    margin-top: 0.5rem;
 
     > span {
       margin-right: 16px;
     }
+  }
+
+  @media (max-width: 1024px) {
+    width: 22rem;
+    max-height: 22rem;
+    > .send-link {
+      font-size: 1.8rem;
+    }
+  }
+
+  @media (max-width: 500px) {
+    width: 18rem;
   }
 `;

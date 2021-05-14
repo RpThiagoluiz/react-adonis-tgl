@@ -13,7 +13,7 @@ import {
   CartItem,
 } from "./styles";
 import {
-  crescentArrayNumbers,
+  formatNumberInArray,
   currencyValue,
   inputFormatValue,
 } from "../../utils";
@@ -21,6 +21,7 @@ import { GameTypesProps } from "../../@types/GameTypes";
 import { api } from "../../services/api";
 import { LoadingSpinner } from "../LoadingSpiner";
 import { GameToAddCartProps } from "../../@types/CartTypes";
+import { EmptyCart } from "../EmptyCart";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +36,7 @@ export const AppGameMod = () => {
     "min-cart-value": 0,
   });
   const [selectedNumbers, setSelectedNumbers] = useState<string[]>([]);
-  const [cartsGames, setCartGames] = useState<any[]>([]);
+  const [cartsGames, setCartGames] = useState<GameToAddCartProps[]>([]);
 
   useEffect(() => {
     async function getGames() {
@@ -57,11 +58,6 @@ export const AppGameMod = () => {
     setIsLoading(false);
     getGames();
   }, []);
-
-  //somente pra check - remover
-  useEffect(() => {
-    console.log(`mudou`);
-  }, [selectedNumbers]);
 
   const handleButtonGameMode = (gameType: string) => {
     setIsLoading(true);
@@ -152,24 +148,22 @@ export const AppGameMod = () => {
     //verificar carrinho esta correto.
     //assim que adc, atualizar o valor do total.
     const { type, price, color } = gameChoice;
+    const numbersChoice = [...selectedNumbers].map((el) => Number(el));
     const newCartGame: GameToAddCartProps = {
       id: String(new Date().getTime()),
       type,
-      gameNumbers: selectedNumbers,
+      gameNumbers: numbersChoice,
       price,
       color,
     };
-
+    //
     setCartGames((prevState) => [...prevState, newCartGame]);
 
-    console.log(newCartGame);
+    console.log(newCartGame.gameNumbers);
   };
 
   const removeItemToCart = (id: string) => {
-    //let cartItems = [...cartsGames]
-    //cartItems.filter(game => game.id !== id)
     setCartGames((prevState) => prevState.filter((game) => game.id !== id));
-    console.log(`remove ${id}`);
   };
 
   return (
@@ -228,18 +222,22 @@ export const AppGameMod = () => {
 
             <div>
               <section className="grid-cart-container-section">
-                {cartsGames.map((game) => (
-                  <div key={game.id}>
-                    <BsTrash onClick={() => removeItemToCart(game.id)} />
-                    <CartItem color={game.color}>
-                      <p>{crescentArrayNumbers(game.gameNumbers)}</p>
-                      <span>
-                        <strong>{game.type}</strong>
-                        <span>{currencyValue(game.price)}</span>
-                      </span>
-                    </CartItem>
-                  </div>
-                ))}
+                {!!cartsGames.length ? (
+                  cartsGames.map((game) => (
+                    <div key={game.id}>
+                      <BsTrash onClick={() => removeItemToCart(game.id)} />
+                      <CartItem color={game.color}>
+                        <p>{formatNumberInArray(game.gameNumbers)}</p>
+                        <span>
+                          <strong>{game.type}</strong>
+                          <span>{currencyValue(game.price)}</span>
+                        </span>
+                      </CartItem>
+                    </div>
+                  ))
+                ) : (
+                  <EmptyCart />
+                )}
               </section>
               <section className="grid-cart-total">
                 <span>

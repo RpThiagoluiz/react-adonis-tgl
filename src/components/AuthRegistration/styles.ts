@@ -8,6 +8,8 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
 
+  margin-top: 1rem;
+
   > h2 {
     color: var(--gray-700);
     text-align: center;
@@ -22,8 +24,8 @@ export const Container = styled.section`
     align-items: center;
     justify-content: center;
 
-    margin-top: 80px;
-    font-size: 35px;
+    margin-top: 5rem;
+    font-size: 2.2rem;
     font-weight: bold;
     font-style: italic;
 
@@ -44,9 +46,9 @@ export const Form = styled.form`
   > p {
     position: absolute;
     bottom: 9.875rem; //158px
-    right: 27px;
+    right: 1.6875rem;
 
-    font-size: 17px;
+    font-size: 1.1rem;
     font-style: italic;
     color: var(--gray-100);
   }
@@ -55,14 +57,16 @@ export const Form = styled.form`
 export const FormContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 360px;
-  height: auto;
+  width: 24rem;
+
   > label {
     margin: 34px 0 26px 30px;
-    color: var(--gray-300);
+    color: var(--gray-800);
   }
   > input {
     border-bottom: 1px solid var(--shape);
+    font-size: 2rem;
+    color: red;
   }
 
   > .registration {
@@ -75,8 +79,12 @@ export const FormContent = styled.div`
     color: var(--green);
     font-weight: bold;
     font-style: italic;
-    font-size: 35px;
+    font-size: 2.2rem;
 
-    padding: 32px;
+    padding: 2rem;
+  }
+
+  @media (max-width: 360px) {
+    width: 18rem;
   }
 `;

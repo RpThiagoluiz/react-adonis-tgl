@@ -5,8 +5,8 @@ import { AppPage } from "../pages/App";
 
 export const AppRoutes = () => (
   <Switch>
-    <Route path="/" exact component={AppPage} />
-    <Route path="/recentgames" component={RecentGames} />
+    <Route path="/" exact component={RecentGames} />
+    <Route path="/newbet" component={AppPage} />
     <Route path="*" exact component={NotFound} />
   </Switch>
 );

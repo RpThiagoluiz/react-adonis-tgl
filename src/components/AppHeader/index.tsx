@@ -18,10 +18,10 @@ export const AppHeader = () => {
         <h2>TGL</h2>
 
         <div className="header-nav-div-center">
-          <NavLink exact to="/">
+          <NavLink exact to="/newbet">
             Home
           </NavLink>
-          <NavLink to="/recentgames">Account</NavLink>
+          <NavLink to="/">Account</NavLink>
         </div>
 
         <div className="header-nav-div-end" onClick={logoutHandler}>

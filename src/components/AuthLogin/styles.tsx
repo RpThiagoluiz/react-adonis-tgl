@@ -55,7 +55,7 @@ export const Form = styled.form`
 
     text-decoration: none;
 
-    font-size: 17px;
+    font-size: 1.1rem;
     font-style: italic;
     color: var(--gray-100);
   }
@@ -65,21 +65,33 @@ export const Form = styled.form`
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1rem;
 
     background: transparent;
     color: var(--green);
     font-weight: bold;
     font-style: italic;
-    font-size: 35px;
+    font-size: 2.2rem;
 
-    margin-bottom: 43px;
+    margin-bottom: 2.4rem;
 
     > a {
       text-decoration: none;
       color: var(--green);
       > span {
-        margin-right: 16px;
       }
+    }
+  }
+
+  @media (max-width: 500px) {
+    width: 70%;
+    > a {
+      font-size: 0.9rem;
+    }
+    > .sing-in {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      margin-top: -2rem;
     }
   }
 `;
@@ -95,5 +107,11 @@ export const FormContent = styled.div`
   }
   > input {
     border-bottom: 1px solid var(--shape);
+    font-size: 1rem;
+    color: var(--gray-300);
+  }
+
+  @media (max-width: 500px) {
+    width: 70%;
   }
 `;

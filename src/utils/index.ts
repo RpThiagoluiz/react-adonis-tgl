@@ -22,12 +22,16 @@ export const dateFormatValue = (date: Date) => {
   );
 };
 
-export const crescentArrayNumbers = (selectedNumber: any) => {
-  const crescs = (cr1: any, cr2: any) => {
+export const formatNumberInArray = (selectedNumber: number[]) => {
+  const crescs = (cr1: number, cr2: number) => {
     return cr1 - cr2;
   };
 
   const crescResult = [...selectedNumber];
 
-  return crescResult.sort(crescs);
+  const numberResult = crescResult.sort(crescs);
+
+  const formateNumbers = (numbers: number[]) => numbers.join(", ");
+
+  return formateNumbers(numberResult);
 };

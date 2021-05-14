@@ -1,3 +1,8 @@
 import { AppGameMod } from "../../components/AppGameMod";
+import { Container } from "./styles";
 
-export const AppPage = () => <AppGameMod />;
+export const AppPage = () => (
+  <Container>
+    <AppGameMod />
+  </Container>
+);

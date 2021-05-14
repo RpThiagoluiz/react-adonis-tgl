@@ -2,7 +2,7 @@ export interface GameToAddCartProps {
   id: string;
   type: string;
   price: number;
-  gameNumbers: string[];
+  gameNumbers: any[];
   color: string;
 }
 

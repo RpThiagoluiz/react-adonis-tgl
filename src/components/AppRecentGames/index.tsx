@@ -50,7 +50,7 @@ export const AppRecentGames = () => (
     </div>
 
     <div className="new-bet">
-      <Link to="/"> New Bet</Link> <HiOutlineArrowRight />
+      <Link to="/newbet"> New Bet</Link> <HiOutlineArrowRight />
     </div>
   </Container>
 );
