@@ -7,7 +7,7 @@ const initialState: CartProps = {
   totalPrice: 0,
 };
 
-export const cartSlice = createSlice({
+const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
@@ -20,4 +20,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const CartActions = cartSlice.actions;
+const CartActions = cartSlice.actions;
+
+export { cartSlice, CartActions };

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { CartActions } from "../../store/cartSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoCartOutline } from "react-icons/io5";
 import { BsTrash } from "react-icons/bs";
@@ -17,11 +19,13 @@ import {
   currencyValue,
   inputFormatValue,
 } from "../../utils";
+import { ModalError } from "../ModalError";
 import { GameTypesProps } from "../../@types/GameTypes";
 import { api } from "../../services/api";
 import { LoadingSpinner } from "../LoadingSpiner";
 import { GameToAddCartProps } from "../../@types/CartTypes";
 import { EmptyCart } from "../EmptyCart";
+import { ErrorProps } from "../../@types/Error";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +41,15 @@ export const AppGameMod = () => {
   });
   const [selectedNumbers, setSelectedNumbers] = useState<string[]>([]);
   const [cartsGames, setCartGames] = useState<GameToAddCartProps[]>([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [messageToUser, setMessageToUser] = useState<ErrorProps>({
+    title: "",
+    description: "",
+    color: "",
+    active: false,
+  });
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getGames() {
@@ -44,6 +57,7 @@ export const AppGameMod = () => {
       try {
         await api.get<GameTypesProps[]>("/types").then((response) => {
           const { data } = response;
+
           const findLotofacil = data.filter(
             (game) => game.type === "Lotofácil"
           );
@@ -53,11 +67,20 @@ export const AppGameMod = () => {
           setApiResponse(data);
           setGameChoice(initalGame[0]);
         });
-      } catch (error) {}
+      } catch (error) {
+        alert(error.message);
+      }
     }
     setIsLoading(false);
     getGames();
   }, []);
+
+  useEffect(() => {
+    const total = cartsGames.reduce((sumTotal, games) => {
+      return sumTotal + games.price;
+    }, 0);
+    setTotalPrice(total);
+  }, [cartsGames]);
 
   const handleButtonGameMode = (gameType: string) => {
     setIsLoading(true);
@@ -147,27 +170,85 @@ export const AppGameMod = () => {
     //antes de adc, verificar a quantidade de numeros,
     //verificar carrinho esta correto.
     //assim que adc, atualizar o valor do total.
-    const { type, price, color } = gameChoice;
-    const numbersChoice = [...selectedNumbers].map((el) => Number(el));
-    const newCartGame: GameToAddCartProps = {
-      id: String(new Date().getTime()),
-      type,
-      gameNumbers: numbersChoice,
-      price,
-      color,
-    };
-    //
-    setCartGames((prevState) => [...prevState, newCartGame]);
+    try {
+      const { type, price, color } = gameChoice;
+      const numbersChoice = [...selectedNumbers].map((el) => Number(el));
+      const newCartGame: GameToAddCartProps = {
+        id: String(new Date().getTime()),
+        type,
+        gameNumbers: numbersChoice,
+        price,
+        color,
+      };
 
-    console.log(newCartGame.gameNumbers);
+      if (numbersChoice.length !== gameChoice["max-number"]) {
+        throw new Error(
+          `Voce nao adicionou a quantidade de numeros do game, ${gameChoice["max-number"]}`
+        );
+      }
+
+      setCartGames((prevState) => [...prevState, newCartGame]);
+    } catch (error) {
+      setMessageToUser({
+        title: "Ocorreu um erro !",
+        description: error.message,
+        color: "var(--red)",
+        active: true,
+      });
+    }
   };
 
   const removeItemToCart = (id: string) => {
     setCartGames((prevState) => prevState.filter((game) => game.id !== id));
   };
 
+  const saveGame = () => {
+    try {
+      if (totalPrice < 30) {
+        const minPrice = gameChoice["min-cart-value"];
+        throw new Error(
+          `Valor minimo para salvar o game nao atingido: ${currencyValue(
+            minPrice
+          )}`
+        );
+      }
+      cartsGames.forEach((game) => {
+        dispatch(CartActions.addItemToCart(game));
+      });
+      setCartGames([]);
+      setMessageToUser({
+        title: "Bet Realizada com Sucesso!",
+        description: "Veja seu historico de apostas, acessando sua conta.",
+        color: "var(--spinner)",
+        active: true,
+      });
+    } catch (error) {
+      //Criar o modal para error, messages
+      setMessageToUser({
+        title: "Ocorreu um erro !",
+        description: error.message,
+        color: "var(--red)",
+        active: true,
+      });
+    }
+  };
+
+  const toggleModal = () => {
+    setMessageToUser({ title: "", description: "", color: "", active: false });
+  };
+
+  const modal = (
+    <ModalError
+      color={messageToUser.color}
+      title={messageToUser.title}
+      description={messageToUser.description}
+      onClickClose={toggleModal}
+    />
+  );
+
   return (
     <Container>
+      {messageToUser.active && modal}
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -243,12 +324,12 @@ export const AppGameMod = () => {
                 <span>
                   <strong>CART </strong>
                   TOTAL:
-                  <span> {currencyValue(25)}</span>
+                  <span> {currencyValue(totalPrice)}</span>
                 </span>
               </section>
             </div>
 
-            <button className="grid-cart-button-save">
+            <button className="grid-cart-button-save" onClick={saveGame}>
               <span>
                 Save <HiOutlineArrowRight />
               </span>

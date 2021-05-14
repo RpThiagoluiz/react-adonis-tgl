@@ -7,10 +7,12 @@ export default createGlobalStyle`
   --gray-300: #9D9D9D;
   --gray-700: #707070;
   --gray-800: #868686;
+  --gray-900:#383838;
   --cyan-gray:#adc0c4;
   --background:#F7F7F7;
   --green: #B5C401;
   --green-900:#27C383;
+  --red:#ff6666;
   --white:#FFFFFF;
   --shape:#EBEBEB;
   --spinner: #5ed1a2;
