@@ -68,7 +68,12 @@ export const AppGameMod = () => {
           setGameChoice(initalGame[0]);
         });
       } catch (error) {
-        alert(error.message);
+        setMessageToUser({
+          title: "Request Error",
+          description: "500 - Internal Server Error",
+          color: "var(--red)",
+          active: true,
+        });
       }
     }
     setIsLoading(false);
@@ -178,6 +183,7 @@ export const AppGameMod = () => {
         type,
         gameNumbers: numbersChoice,
         price,
+        betDate: new Date(),
         color,
       };
 
@@ -317,7 +323,7 @@ export const AppGameMod = () => {
                     </div>
                   ))
                 ) : (
-                  <EmptyCart />
+                  <EmptyCart color="var(--grey-800)" />
                 )}
               </section>
               <section className="grid-cart-total">

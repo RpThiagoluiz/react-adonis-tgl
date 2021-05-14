@@ -4,6 +4,10 @@ export const Container = styled.section`
   height: 4.9375rem; //79px
   width: 100%;
 
+  position: fixed;
+  bottom: 0;
+  left: 0;
+
   text-align: center;
   font-size: 0.9375rem;
   color: var(--gray-700);

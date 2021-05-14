@@ -4,6 +4,7 @@ export interface GameToAddCartProps {
   price: number;
   gameNumbers: any[];
   color: string;
+  betDate: Date;
 }
 
 export interface CartProps {

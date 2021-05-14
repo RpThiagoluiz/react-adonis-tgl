@@ -65,8 +65,8 @@ export const FormContent = styled.div`
   }
   > input {
     border-bottom: 1px solid var(--shape);
-    font-size: 2rem;
-    color: red;
+    font-size: 1.2rem;
+    color: black;
   }
 
   > .registration {

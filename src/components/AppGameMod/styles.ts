@@ -254,7 +254,7 @@ export const ButtonGame = styled.button<ButtonColorProps>`
   border-radius: 100px;
 
   //Props
-  border: 1px solid ${(props) => (props.isActive ? "none" : props.color)};
+  border: 2px solid ${(props) => (props.isActive ? "none" : props.color)};
   color: ${(props) => (props.isActive ? "var(--white)" : props.color)};
   background: ${(props) => (props.isActive ? props.color : "transparent")};
 

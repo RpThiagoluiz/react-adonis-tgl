@@ -10,9 +10,8 @@ export const Registration = () => {
   const { push } = useHistory();
   const dispatch = useDispatch();
 
-  const handleProps = (user: UserProps): any => {
+  const handleProps = (user: UserProps) => {
     dispatch(UserActions.addUser(user));
-    console.log(user);
     push("/");
   };
 

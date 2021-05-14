@@ -1,5 +1,14 @@
 import styled from "styled-components";
 
+interface ButtonColorProps {
+  color: string;
+  isActive: boolean;
+}
+
+interface ColorProps {
+  color: string;
+}
+
 export const Container = styled.section`
   display: flex;
   align-items: flex-start;
@@ -27,70 +36,6 @@ export const Container = styled.section`
         color: var(--gray-800);
         margin-right: 1rem;
       }
-
-      > .bet-container-filters {
-        button {
-          width: 120px;
-
-          background: transparent;
-
-          padding: 0.5rem;
-          border-radius: 100px;
-
-          //Props
-          border: 2px solid purple;
-          color: purple;
-
-          margin-right: 2rem;
-        }
-      }
-    }
-
-    > .bet-item-description {
-      position: relative;
-      max-width: 40.5rem;
-      word-wrap: break-word;
-      color: var(--gray-800);
-
-      border-left: 0.3rem solid pink;
-      border-radius: 4px;
-      padding: 0.5rem;
-
-      margin-bottom: 1.5rem;
-
-      /* &::before {
-        content: "";
-
-        width: 0.25rem;
-        height: 6rem;
-
-        position: absolute;
-        left: -2px;
-
-        border-radius: 7px;
-        background: purple;
-      } */
-
-      > p {
-        font-size: 1.06rem;
-        font-style: italic;
-        font-weight: bold;
-        line-height: 1.5rem;
-
-        margin-bottom: 15px;
-      }
-
-      > div {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-
-      > strong {
-        font-size: 20px;
-        font-style: italic;
-        color: pink;
-      }
     }
   }
 
@@ -99,7 +44,7 @@ export const Container = styled.section`
     align-items: center;
 
     margin-top: 72px;
-    margin-right: 19rem;
+    margin-right: 24rem;
 
     font-size: 24px;
     font-weight: bold;
@@ -111,5 +56,72 @@ export const Container = styled.section`
       color: var(--green-900);
       margin-right: 11px;
     }
+  }
+`;
+
+export const Empty = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+`;
+
+export const ButtonGame = styled.button<ButtonColorProps>`
+  width: 120px;
+
+  background: transparent;
+  margin-right: 1.56rem;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+
+  //Props
+  border: 2px solid ${(props) => (props.isActive ? "none" : props.color)};
+  color: ${(props) => (props.isActive ? "var(--white)" : props.color)};
+  background: ${(props) => (props.isActive ? props.color : "transparent")};
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  //Active change border, background, color.
+`;
+
+export const CartItem = styled.button<ColorProps>`
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  max-width: 50.5rem;
+
+  word-wrap: break-word;
+  color: var(--gray-800);
+
+  border-left: 6px solid ${(props) => props.color};
+  border-radius: 4px;
+  padding: 0.5rem;
+
+  margin-bottom: 2.5rem;
+
+  > p {
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: bold;
+    line-height: 1.75rem;
+
+    margin-bottom: 15px;
+  }
+
+  > div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    > p {
+      font-size: 1.2rem;
+    }
+  }
+
+  > strong {
+    font-size: 1.4rem;
+    font-style: italic;
+    color: ${(props) => props.color};
   }
 `;

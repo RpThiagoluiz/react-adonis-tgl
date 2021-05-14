@@ -1,11 +1,16 @@
 import styled from "styled-components";
-export const Container = styled.div`
+
+interface ColorProps {
+  color: string;
+}
+
+export const Container = styled.div<ColorProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
 
-  color: var(--grey-800);
+  color: ${(props) => props.color};
   font-size: 1.8rem;
 
   cursor: unset;
