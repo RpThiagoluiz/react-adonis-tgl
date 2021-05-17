@@ -4,7 +4,7 @@ export const Container = styled.section`
   height: 4.9375rem; //79px
   width: 100%;
 
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
 
@@ -16,7 +16,7 @@ export const Container = styled.section`
   //margin-top: 15rem;
 
   @media (max-width: 1200px) {
-    position: relative;
+    //position: relative;
     margin-top: 2rem;
   }
 `;

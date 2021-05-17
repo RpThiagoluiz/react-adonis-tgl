@@ -16,6 +16,7 @@ export const AuthResetPass = () => {
     active: false,
   });
   const [email, setEmail] = useState("");
+  const [redirect, setRedirect] = useState(false);
   const { users } = useSelector((state: any) => state.user);
 
   const { push } = useHistory();
@@ -32,10 +33,16 @@ export const AuthResetPass = () => {
       if (!emailExists) {
         throw new Error(`email nao cadastrado`);
       } else {
-        push("/");
-        return console.log(`Email ${email} submited`);
+        setMessageToUser({
+          title: "Email enviado",
+          description: "uma nova senha foi enviada para seu email informado",
+          color: "var(--green)",
+          active: true,
+        });
+        setRedirect(true);
       }
     } catch (error) {
+      setRedirect(false);
       setMessageToUser({
         title: "Ocorreu um erro !",
         description: error.message,
@@ -45,8 +52,30 @@ export const AuthResetPass = () => {
     }
   };
 
+  const onBlurEmail = (enteredEmail: string) => {
+    const regexValidEmail = /^[\w+.]*@\w+.(?:[A-Z]{2,})?.[\w\w]*$/.test(
+      enteredEmail
+    );
+    try {
+      if (!regexValidEmail) {
+        throw new Error(
+          "Digite um email valido. Exemplos: meu.email+categoria@gmail.com, juca_malandro@bol.com.br, pedrobala@hotmail.uy, sandro@culinaria.dahora"
+        );
+      }
+    } catch (error) {
+      setRedirect(false);
+      setMessageToUser({
+        title: "Email Invalido",
+        description: error.message,
+        color: "var(--red)",
+        active: true,
+      });
+    }
+  };
+
   const toggletToast = () => {
     setMessageToUser({ title: "", description: "", color: "", active: false });
+    redirect && push("/");
   };
 
   const toast = (
@@ -55,6 +84,7 @@ export const AuthResetPass = () => {
       title={messageToUser.title}
       description={messageToUser.description}
       onClickClose={toggletToast}
+      handleSvgError={redirect}
     />
   );
 
@@ -72,6 +102,7 @@ export const AuthResetPass = () => {
             id="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
+            onBlur={(event) => onBlurEmail(event.target.value)}
           />
           <button type="submit" className="send-link">
             <span>Send Link</span>

@@ -1,17 +1,18 @@
 import { ToastProps } from "../../@types/Modal";
 import { BackDrop, CardWrapper } from "./styles";
-import { AiFillLock } from "react-icons/ai";
+import { AiFillLock, AiFillUnlock } from "react-icons/ai";
 
 export const AuthToast = ({
   title,
   description,
   color,
+  handleSvgError,
   onClickClose,
 }: ToastProps) => (
   <BackDrop>
     <CardWrapper color={color}>
       <header>
-        <AiFillLock size={40} />
+        {handleSvgError ? <AiFillUnlock size={40} /> : <AiFillLock size={40} />}
         <h2>{title}</h2>
       </header>
       <div>

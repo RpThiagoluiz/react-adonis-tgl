@@ -47,7 +47,6 @@ export const Form = styled.form`
 
   background: var(--white);
 
-  height: 150px;
   > p {
     position: absolute;
     bottom: 9.875rem; //158px
@@ -70,10 +69,13 @@ export const FormContent = styled.div`
   }
   > input {
     border-bottom: 1px solid var(--shape);
+    font-size: 1.3rem;
+    color: var(--gray-700);
   }
 
   > .send-link {
     width: 100%;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,6 +87,7 @@ export const FormContent = styled.div`
     font-size: 2.1rem;
 
     margin-top: 0.5rem;
+    padding: 2rem;
 
     > span {
       margin-right: 16px;

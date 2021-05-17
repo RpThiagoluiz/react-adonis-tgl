@@ -15,6 +15,7 @@ export const AuthLogin = () => {
     color: "",
     active: false,
   });
+
   const dispatch = useDispatch();
   const { users } = useSelector((state: any) => state.user);
   const { logIn } = UserActions;
@@ -59,8 +60,31 @@ export const AuthLogin = () => {
       title={messageToUser.title}
       description={messageToUser.description}
       onClickClose={toggletToast}
+      handleSvgError={false}
     />
   );
+
+  const onBlurEmail = () => {
+    if (emailInputRef.current?.value) {
+      const regexValidEmail = /^[\w+.]*@\w+.(?:[A-Z]{2,})?.[\w\w]*$/.test(
+        emailInputRef.current?.value
+      );
+      try {
+        if (!regexValidEmail) {
+          throw new Error(
+            "Digite um email valido. Exemplos: meu.email+categoria@gmail.com, juca_malandro@bol.com.br, pedrobala@hotmail.uy, sandro@culinaria.dahora"
+          );
+        }
+      } catch (error) {
+        setMessageToUser({
+          title: "Email Invalido",
+          description: error.message,
+          color: "var(--red)",
+          active: true,
+        });
+      }
+    }
+  };
 
   return (
     <Container>
@@ -76,7 +100,7 @@ export const AuthLogin = () => {
             id="email"
             required
             ref={emailInputRef}
-            onBlur={() => console.log(`focus no email`)}
+            onBlur={() => onBlurEmail()}
           />
           <label htmlFor="password">Password</label>
           <input
@@ -84,7 +108,6 @@ export const AuthLogin = () => {
             id="password"
             required
             ref={passwordInputRef}
-            onBlur={() => console.log(`focus no pass`)}
           />
         </FormContent>
         <Link to="/resetpassword">I forget my password</Link>

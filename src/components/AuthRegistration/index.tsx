@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 import { FormEvent, useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { UserActions } from "../../store/userSlice";
 import { UserProps } from "../../@types/User";
 import { ErrorProps } from "../../@types/Error";
@@ -16,6 +16,7 @@ export const AuthRegistration = () => {
     color: "",
     active: false,
   });
+  const [redirect, setRedirect] = useState(false);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -23,7 +24,6 @@ export const AuthRegistration = () => {
   const { push } = useHistory();
   const dispatch = useDispatch();
   const { addUser } = UserActions;
-  const { users } = useSelector((state: any) => state.user);
 
   const handlerBackButton = () => {
     push("/");
@@ -38,6 +38,7 @@ export const AuthRegistration = () => {
 
       try {
         if (name && email && password) {
+          //validar os campos. e enviar caso validos.
           const userData: UserProps = {
             id: String(new Date().getTime()),
             name,
@@ -45,9 +46,16 @@ export const AuthRegistration = () => {
             password,
             recentGames: [],
           };
+
+          setMessageToUser({
+            title: `Ola,${userData.name}`,
+            description:
+              "Seu cadastrado foi realizado com sucesso, aproveite! 🎉 ",
+            color: "var(--green)",
+            active: true,
+          });
           dispatch(addUser(userData));
-          console.log(users);
-          push("/");
+          setRedirect(true);
         } else {
           throw new Error(`error on create a data `);
         }
@@ -58,13 +66,15 @@ export const AuthRegistration = () => {
           color: "var(--red)",
           active: true,
         });
+        setRedirect(false);
       }
     },
-    [addUser, dispatch, push, users]
+    [addUser, dispatch]
   );
 
   const toggletToast = () => {
     setMessageToUser({ title: "", description: "", color: "", active: false });
+    redirect && push("/");
   };
 
   const toast = (
@@ -73,8 +83,68 @@ export const AuthRegistration = () => {
       title={messageToUser.title}
       description={messageToUser.description}
       onClickClose={toggletToast}
+      handleSvgError={redirect}
     />
   );
+
+  //Just send when all date is valid!
+  const onBlurEmail = () => {
+    if (emailInputRef.current?.value) {
+      const regexValidEmail = /^[\w+.]*@\w+.(?:[A-Z]{2,})?.[\w\w]*$/.test(
+        emailInputRef.current?.value
+      );
+      try {
+        if (!regexValidEmail) {
+          throw new Error(
+            "Digite um email valido. Exemplos: meu.email+categoria@gmail.com, juca_malandro@bol.com.br, pedrobala@hotmail.uy, sandro@culinaria.dahora"
+          );
+        }
+      } catch (error) {
+        setMessageToUser({
+          title: "Email Invalido",
+          description: error.message,
+          color: "var(--red)",
+          active: true,
+        });
+      }
+    }
+  };
+
+  const onBlurName = () => {
+    const name = nameInputRef.current?.value;
+    if (name) {
+      try {
+        if (name.length < 3) {
+          throw new Error("Nome deve possuir pelo menos  3 letras!");
+        }
+      } catch (error) {
+        setMessageToUser({
+          title: "Name Invalido",
+          description: error.message,
+          color: "var(--red)",
+          active: true,
+        });
+      }
+    }
+  };
+
+  const onBlurPassword = () => {
+    const password = passwordInputRef.current?.value;
+    if (password) {
+      try {
+        if (password.length < 6) {
+          throw new Error(`Password deve conter pelo menos 6 caracteres`);
+        }
+      } catch (error) {
+        setMessageToUser({
+          title: "Password Invalido",
+          description: error.message,
+          color: "var(--red)",
+          active: true,
+        });
+      }
+    }
+  };
 
   return (
     <Container>
@@ -90,7 +160,7 @@ export const AuthRegistration = () => {
             id="name"
             required
             ref={nameInputRef}
-            onBlur={() => {}}
+            onBlur={() => onBlurName()}
           />
 
           <label htmlFor="email">Email</label>
@@ -99,7 +169,7 @@ export const AuthRegistration = () => {
             id="email"
             required
             ref={emailInputRef}
-            onBlur={() => {}}
+            onBlur={() => onBlurEmail()}
           />
 
           <label htmlFor="password">Password</label>
@@ -108,7 +178,7 @@ export const AuthRegistration = () => {
             id="password"
             required
             ref={passwordInputRef}
-            onBlur={() => {}}
+            onBlur={() => onBlurPassword()}
           />
 
           <button type="submit" className="registration">

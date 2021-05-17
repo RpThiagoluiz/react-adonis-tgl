@@ -107,8 +107,8 @@ export const FormContent = styled.div`
   }
   > input {
     border-bottom: 1px solid var(--shape);
-    font-size: 1rem;
-    color: var(--gray-300);
+    font-size: 1.3rem;
+    color: var(--gray-700);
   }
 
   @media (max-width: 500px) {

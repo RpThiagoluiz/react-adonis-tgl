@@ -44,7 +44,7 @@ export const Container = styled.section`
     align-items: center;
 
     margin-top: 72px;
-    margin-right: 24rem;
+    margin-right: 14rem;
 
     font-size: 24px;
     font-weight: bold;

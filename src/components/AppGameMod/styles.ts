@@ -171,6 +171,17 @@ export const GridCart = styled.aside`
 
       overflow-y: auto;
 
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: var(--gray-800);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+
       > div {
         display: flex;
         align-items: center;

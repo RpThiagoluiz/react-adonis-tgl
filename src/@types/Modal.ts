@@ -9,5 +9,6 @@ export interface ToastProps {
   title: string;
   description: string;
   color: string;
+  handleSvgError: boolean;
   onClickClose: React.MouseEventHandler<HTMLButtonElement>;
 }
