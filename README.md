@@ -1,9 +1,14 @@
-### Init
+# Init
+
+Travei, verificar os campos. de email
 
 filter game
-bug -> repet numbers
+bug -> repeat numbers
 
+Success Login, nas auth - Error ja tem
 responsive designer
+
+salvar o games dentro do recentGames do meu user
 
 **Falta**
 RF01. Validar o e-mail no registro, login e no reset password

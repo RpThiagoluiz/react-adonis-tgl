@@ -11,7 +11,6 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    //add remove?
     addItemToCart(state, action) {
       const newGame = action.payload;
       state.games.push(newGame);

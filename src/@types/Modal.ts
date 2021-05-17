@@ -4,3 +4,10 @@ export interface ModalProps {
   color: string;
   onClickClose: React.MouseEventHandler<HTMLButtonElement>;
 }
+
+export interface ToastProps {
+  title: string;
+  description: string;
+  color: string;
+  onClickClose: React.MouseEventHandler<HTMLButtonElement>;
+}

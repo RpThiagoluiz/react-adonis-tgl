@@ -26,10 +26,12 @@ import { LoadingSpinner } from "../LoadingSpiner";
 import { GameToAddCartProps } from "../../@types/CartTypes";
 import { EmptyCart } from "../EmptyCart";
 import { ErrorProps } from "../../@types/Error";
+import { useHistory } from "react-router-dom";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
+  const [redirect, setRedirect] = useState(false);
   const [gameChoice, setGameChoice] = useState<GameTypesProps>({
     type: "",
     description: "",
@@ -48,7 +50,7 @@ export const AppGameMod = () => {
     color: "",
     active: false,
   });
-
+  const { push } = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -218,6 +220,7 @@ export const AppGameMod = () => {
           )}`
         );
       }
+
       cartsGames.forEach((game) => {
         dispatch(CartActions.addItemToCart(game));
       });
@@ -228,6 +231,7 @@ export const AppGameMod = () => {
         color: "var(--spinner)",
         active: true,
       });
+      setRedirect(true);
     } catch (error) {
       //Criar o modal para error, messages
       setMessageToUser({
@@ -241,6 +245,7 @@ export const AppGameMod = () => {
 
   const toggleModal = () => {
     setMessageToUser({ title: "", description: "", color: "", active: false });
+    redirect && push("/");
   };
 
   const modal = (

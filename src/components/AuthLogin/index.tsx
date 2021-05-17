@@ -1,36 +1,91 @@
 import { Link } from "react-router-dom";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+import { UserActions } from "../../store/userSlice";
+import { FormEvent, useRef, useState } from "react";
+import { UserProps } from "../../@types/User";
+import { ErrorProps } from "../../@types/Error";
+import { AuthToast } from "../AuthToast";
 
-interface AuthLoginProps {
-  handlerLogin: (event: any) => void;
-}
+export const AuthLogin = () => {
+  const [messageToUser, setMessageToUser] = useState<ErrorProps>({
+    title: "",
+    description: "",
+    color: "",
+    active: false,
+  });
+  const dispatch = useDispatch();
+  const { users } = useSelector((state: any) => state.user);
+  const { logIn } = UserActions;
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
-export const AuthLogin = ({ handlerLogin }: AuthLoginProps) => {
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: FormEvent) => {
+    const email = emailInputRef.current?.value;
+    const password = passwordInputRef.current?.value;
     event.preventDefault();
-    handlerLogin({
-      email: event.currentTarget.email.value,
-      password: event.currentTarget.password.value,
-    });
+
+    try {
+      if (email && password) {
+        const findUser = users.find((user: UserProps) => user.email === email);
+
+        if (!findUser) {
+          throw new Error("Usuario não existe");
+        }
+        if (findUser.password !== password && findUser.email !== email) {
+          throw new Error("Dados nao conferem!!!");
+        } else {
+          dispatch(logIn());
+        }
+      }
+    } catch (error) {
+      setMessageToUser({
+        title: "Ocorreu um erro !",
+        description: error.message,
+        color: "var(--red)",
+        active: true,
+      });
+    }
   };
 
-  //   const enteredEmail = emailInputRef.current.value;
-  //   const enteredPassword = passwordInputRef.current.value;
-  //   console.log(enteredEmail, enteredPassword);
-  // };
+  const toggletToast = () => {
+    setMessageToUser({ title: "", description: "", color: "", active: false });
+  };
+
+  const toast = (
+    <AuthToast
+      color={messageToUser.color}
+      title={messageToUser.title}
+      description={messageToUser.description}
+      onClickClose={toggletToast}
+    />
+  );
 
   return (
     <Container>
+      {messageToUser.active && toast}
       <h2>
         <strong>Authentication</strong>
       </h2>
       <Form onSubmit={handleSubmit}>
         <FormContent>
           <label htmlFor="email">Email</label>
-          <input type="email" id="email" required />
+          <input
+            type="email"
+            id="email"
+            required
+            ref={emailInputRef}
+            onBlur={() => console.log(`focus no email`)}
+          />
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" required />
+          <input
+            type="password"
+            id="password"
+            required
+            ref={passwordInputRef}
+            onBlur={() => console.log(`focus no pass`)}
+          />
         </FormContent>
         <Link to="/resetpassword">I forget my password</Link>
         <button type="submit" className="sing-in">
