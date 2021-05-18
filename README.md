@@ -6,7 +6,8 @@ salvar o games dentro do recentGames do meu user -> resolver com hook e localSto
 
 **Falta**
 
-RF10. Reponsive Designers
+RF10. Reponsive Designers.
+RF11. Just Send Form when all userData is valid.
 
 **Completo**
 _RF01. Validar o e-mail no registro, login e no reset password_
