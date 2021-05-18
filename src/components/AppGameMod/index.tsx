@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { CartActions } from "../../store/cartSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
@@ -16,7 +16,6 @@ import { ErrorProps } from "../../@types/Error";
 import { useHistory } from "react-router-dom";
 import { AppGameInputNumbers } from "../AppGameInputNumbers";
 import { AppGamesApiResponse } from "../AppGamesApiResponse";
-import { Footer } from "../Footer";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -90,26 +89,65 @@ export const AppGameMod = () => {
     setIsLoading(false);
   };
 
-  const handlerInputValue = (event: any) => {
-    let newValue = event.currentTarget.value;
-    const indexSelected = selectedNumbers.indexOf(newValue);
-    const numExists = indexSelected === -1;
-    const maxNumbersSelected =
-      selectedNumbers.length < gameChoice["max-number"];
-    try {
-      if (numExists && maxNumbersSelected) {
-        setSelectedNumbers((prevState) => [...prevState, newValue]);
-      } else if (!numExists) {
-        setSelectedNumbers((prevState) => prevState.splice(indexSelected, 1));
-      } else {
-        throw new Error(
-          `Quantidade selecionada, excede a quantidade maxima ${gameChoice["max-number"]}`
-        );
+  // const handlerInputValue = (event: any) => {
+  //   let newValue = event.currentTarget.value;
+  //   const indexSelected = selectedNumbers.indexOf(newValue);
+  //   const numExists = indexSelected === -1;
+  //   const maxNumbersSelected =
+  //     selectedNumbers.length < gameChoice["max-number"];
+  // try {
+  //   if (numExists && maxNumbersSelected) {
+  //     setSelectedNumbers((prevState) => [...prevState, newValue]);
+  //   } else if (!numExists) {
+  //     setSelectedNumbers((prevState) => prevState.splice(indexSelected, 1));
+  //   } else {
+  //     throw new Error(
+  //       `Quantidade selecionada, excede a quantidade maxima ${gameChoice["max-number"]}`
+  //     );
+  //   }
+  // } catch (error) {
+  //   setRedirect(false);
+  //   setMessageToUser({
+  //     title: "☹ Numeros Selecionados",
+  //     description: error.message,
+  //     color: "var(--red)",
+  //     active: true,
+  //   });
+  // }
+  // };
+
+  const handlerInputValue = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const newValue = event.currentTarget.value;
+      try {
+        const indexSelected = selectedNumbers.indexOf(newValue);
+        const numExists = indexSelected === -1;
+
+        if (numExists && selectedNumbers.length < gameChoice["max-number"]) {
+          return setSelectedNumbers((prevState) => [...prevState, newValue]);
+        } else if (!numExists) {
+          const filterNumbers = selectedNumbers.filter(
+            (num) => num !== newValue
+          );
+          return setSelectedNumbers(filterNumbers);
+        } else {
+          throw new Error(
+            `Quantidade selecionada, excede a quantidade maxima ${gameChoice["max-number"]}`
+          );
+        }
+      } catch (error) {
+        setRedirect(false);
+        setMessageToUser({
+          title: "☹ Numeros Selecionados",
+          description: error.message,
+          color: "var(--red)",
+          active: true,
+        });
       }
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+    },
+
+    [selectedNumbers, gameChoice]
+  );
 
   const handlerClearSelectedNumbers = () => {
     return setSelectedNumbers([]);
@@ -120,16 +158,26 @@ export const AppGameMod = () => {
     const { range } = gameChoice;
     let selectArray = [...selectedNumbers];
 
-    if (selectedNumbers.length === gameChoice["max-number"]) {
-      alert(`numero maximo atingido`);
-    } else {
-      while (selectArray.length < gameChoice["max-number"]) {
-        const randomNumber = String(Math.ceil(Math.random() * range));
-        if (selectArray.indexOf(randomNumber) === -1) {
-          selectArray.push(randomNumber);
+    try {
+      if (selectedNumbers.length === gameChoice["max-number"]) {
+        throw new Error(`Numeros maximo atingido`);
+      } else {
+        while (selectArray.length < gameChoice["max-number"]) {
+          const randomNumber = String(Math.ceil(Math.random() * range));
+          if (selectArray.indexOf(randomNumber) === -1) {
+            selectArray.push(randomNumber);
+          }
         }
+        setSelectedNumbers((prevState) => [...prevState, ...selectArray]);
       }
-      setSelectedNumbers((prevState) => [...prevState, ...selectArray]);
+    } catch (error) {
+      setRedirect(false);
+      setMessageToUser({
+        title: error.message,
+        description: `Para o game ${gameChoice.type}, a quantidade maxima é ${gameChoice["max-number"]}`,
+        color: "var(--red)",
+        active: true,
+      });
     }
   };
 

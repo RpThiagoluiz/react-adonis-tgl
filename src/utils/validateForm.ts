@@ -31,7 +31,6 @@ export const isPasswordValid = (password: string) => {
       throw new Error(`${password} deve conter no minimo 6 caracteres!`);
     }
   } else {
-    alert(`Preencha o campo!`);
     throw new Error(`Preencha o campo!`);
   }
 };
