@@ -1,13 +1,5 @@
 import styled from "styled-components";
 
-interface InputProps {
-  isActive: boolean;
-}
-interface ButtonColorProps {
-  color: string;
-  isActive: boolean;
-}
-
 interface CartItemProps {
   color: string;
 }
@@ -104,26 +96,6 @@ export const GridBet = styled.section`
       }
     }
   }
-`;
-
-export const InputGame = styled.input<InputProps>`
-  width: 3rem;
-  height: 3rem;
-
-  margin: 0 1.375rem 1.5rem 0;
-
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: bold;
-
-  color: #fff;
-  background-color: ${({ isActive }) =>
-    isActive ? "var(--green-900)" : "var(--cyan-gray)"};
-
-  border: none;
-  border-radius: 50%;
-
-  cursor: pointer;
 `;
 
 export const Title = styled.section`
@@ -254,24 +226,4 @@ export const CartItem = styled.section<CartItemProps>`
       color: var(--green-800);
     }
   }
-`;
-
-export const ButtonGame = styled.button<ButtonColorProps>`
-  width: 120px;
-
-  background: transparent;
-  margin-right: 1.56rem;
-  padding: 0.5rem 1rem;
-  border-radius: 100px;
-
-  //Props
-  border: 2px solid ${(props) => (props.isActive ? "none" : props.color)};
-  color: ${(props) => (props.isActive ? "var(--white)" : props.color)};
-  background: ${(props) => (props.isActive ? props.color : "transparent")};
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  //Active change border, background, color.
 `;

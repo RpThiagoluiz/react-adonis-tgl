@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
-export const Input = styled.input`
+interface InputProps {
+  isActive: boolean;
+}
+
+export const Container = styled.section`
+  margin-top: 2rem;
+`;
+
+export const InputGame = styled.input<InputProps>`
   width: 3rem;
   height: 3rem;
 
@@ -11,7 +19,8 @@ export const Input = styled.input`
   font-weight: bold;
 
   color: #fff;
-  background-color: var(--cyan-gray);
+  background-color: ${({ isActive }) =>
+    isActive ? "var(--green-900)" : "var(--cyan-gray)"};
 
   border: none;
   border-radius: 50%;

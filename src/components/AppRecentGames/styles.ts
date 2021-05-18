@@ -13,48 +13,42 @@ export const Container = styled.section`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  height: 80vh;
 
-  > .bet {
-    color: red;
-    margin-left: 9rem;
-    margin-top: 72px;
-
-    > section {
-      display: flex;
-      align-items: center;
-      margin-bottom: 2.5rem;
-
-      > h2 {
-        font-size: 24px;
-        color: var(--gray-700);
-        margin-right: 45px;
-      }
-
-      > span {
-        font-size: 17px;
-        font-style: italic;
-        color: var(--gray-800);
-        margin-right: 1rem;
-      }
-    }
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 4px;
   }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--gray-800);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+`;
 
-  > .new-bet {
+export const BetContainer = styled.section`
+  color: red;
+  margin-left: 9rem;
+  margin-top: 72px;
+
+  > section {
     display: flex;
     align-items: center;
+    margin-bottom: 2.5rem;
 
-    margin-top: 72px;
-    margin-right: 14rem;
+    > h2 {
+      font-size: 24px;
+      color: var(--gray-700);
+      margin-right: 45px;
+    }
 
-    font-size: 24px;
-    font-weight: bold;
-    font-style: italic;
-    color: var(--green-900);
-
-    > a {
-      text-decoration: none;
-      color: var(--green-900);
-      margin-right: 11px;
+    > span {
+      font-size: 17px;
+      font-style: italic;
+      color: var(--gray-800);
+      margin-right: 1rem;
     }
   }
 `;
@@ -89,6 +83,7 @@ export const CartItem = styled.button<ColorProps>`
   display: flex;
   flex-direction: column;
   background: transparent;
+
   max-width: 50.5rem;
 
   word-wrap: break-word;
@@ -123,5 +118,23 @@ export const CartItem = styled.button<ColorProps>`
     font-size: 1.4rem;
     font-style: italic;
     color: ${(props) => props.color};
+  }
+`;
+export const NewBetContainer = styled.section`
+  display: flex;
+  align-items: center;
+
+  margin-top: 6rem;
+  margin-right: 14rem;
+
+  font-size: 24px;
+  font-weight: bold;
+  font-style: italic;
+  color: var(--green-900);
+
+  > a {
+    text-decoration: none;
+    color: var(--green-900);
+    margin-right: 11px;
   }
 `;

@@ -1,6 +1,13 @@
 import { Link } from "react-router-dom";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import { Container, Empty, ButtonGame, CartItem } from "./styles";
+import {
+  Container,
+  Empty,
+  ButtonGame,
+  CartItem,
+  NewBetContainer,
+  BetContainer,
+} from "./styles";
 import { useSelector } from "react-redux";
 import {
   currencyValue,
@@ -14,6 +21,8 @@ import { GameTypesProps } from "../../@types/GameTypes";
 import { ErrorProps } from "../../@types/Error";
 import { api } from "../../services/api";
 import { LoadingSpinner } from "../LoadingSpiner";
+import { AppGamesApiResponse } from "../AppGamesApiResponse";
+import { AppRecentUserGame } from "../AppRecentUserGame";
 
 export const AppRecentGames = () => {
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
@@ -33,6 +42,7 @@ export const AppRecentGames = () => {
     color: "",
     active: false,
   });
+  const [] = useState();
 
   const { games } = useSelector((state: any) => state.cart);
 
@@ -74,12 +84,12 @@ export const AppRecentGames = () => {
 
   const handleButtonGameMode = (gameType: string) => {
     setIsLoading(true);
-
     const result = apiReponse.filter((game) => game.type === gameType);
     const gameChoice = [...result];
 
     setGameChoice(gameChoice[0]);
     setIsLoading(false);
+    //console.log(gameChoice[0].type);
   };
 
   return (
@@ -89,12 +99,12 @@ export const AppRecentGames = () => {
         <LoadingSpinner />
       ) : (
         <Container>
-          <div className="bet">
+          <BetContainer>
             <section>
               <h2>RECENT GAMES</h2>
               <span>Filters</span>
               <div>
-                {apiReponse.map((game) => (
+                {/* {apiReponse.map((game) => (
                   <ButtonGame
                     key={game.type}
                     color={game.color}
@@ -106,11 +116,19 @@ export const AppRecentGames = () => {
                   >
                     {game.type}
                   </ButtonGame>
-                ))}
+                ))} */}
+
+                <AppGamesApiResponse
+                  apiReponse={apiReponse}
+                  gameChoice={gameChoice}
+                  handleButtonGameMode={handleButtonGameMode}
+                />
               </div>
             </section>
 
-            {!!games.length ? (
+            <AppRecentUserGame games={games} filter={gameChoice} />
+
+            {/* {!!games.length ? (
               games.map((game: any) => (
                 <CartItem key={game.id} color={game.color}>
                   <p>{formatNumberInArray(game.gameNumbers)}</p>
@@ -127,11 +145,11 @@ export const AppRecentGames = () => {
               <Empty>
                 <EmptyCart color="var(--red)" />
               </Empty>
-            )}
-          </div>
-          <div className="new-bet">
+            )} */}
+          </BetContainer>
+          <NewBetContainer>
             <Link to="/newbet"> New Bet</Link> <HiOutlineArrowRight />
-          </div>
+          </NewBetContainer>
         </Container>
       )}
     </>

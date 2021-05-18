@@ -4,21 +4,8 @@ import { CartActions } from "../../store/cartSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoCartOutline } from "react-icons/io5";
 import { BsTrash } from "react-icons/bs";
-import {
-  Container,
-  GridBet,
-  GridCart,
-  Title,
-  Grid,
-  ButtonGame,
-  InputGame,
-  CartItem,
-} from "./styles";
-import {
-  formatNumberInArray,
-  currencyValue,
-  inputFormatValue,
-} from "../../utils";
+import { Container, GridBet, GridCart, Title, Grid, CartItem } from "./styles";
+import { formatNumberInArray, currencyValue } from "../../utils";
 import { ModalError } from "../ModalError";
 import { GameTypesProps } from "../../@types/GameTypes";
 import { api } from "../../services/api";
@@ -27,6 +14,9 @@ import { GameToAddCartProps } from "../../@types/CartTypes";
 import { EmptyCart } from "../EmptyCart";
 import { ErrorProps } from "../../@types/Error";
 import { useHistory } from "react-router-dom";
+import { AppGameInputNumbers } from "../AppGameInputNumbers";
+import { AppGamesApiResponse } from "../AppGamesApiResponse";
+import { Footer } from "../Footer";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -82,6 +72,7 @@ export const AppGameMod = () => {
     getGames();
   }, []);
 
+  //Total Game Price
   useEffect(() => {
     const total = cartsGames.reduce((sumTotal, games) => {
       return sumTotal + games.price;
@@ -120,39 +111,10 @@ export const AppGameMod = () => {
     }
   };
 
-  const existsNumber = (value: string) => {
-    return selectedNumbers.indexOf(value) !== -1 ? true : false;
-  };
-
-  const gameBetNumbers = () => {
-    const { range } = gameChoice;
-    let gameRangeInputs = [];
-    for (let index = 1; index <= range; index++) {
-      const formatedNumber = inputFormatValue(index);
-      gameRangeInputs.push(
-        <InputGame
-          key={index}
-          isActive={existsNumber(formatedNumber)}
-          type="text"
-          name=""
-          value={formatedNumber}
-          className="grid-bet-container-range-input"
-          onClick={handlerInputValue}
-          readOnly
-        />
-      );
-    }
-
-    return gameRangeInputs;
-  };
-
-  //Buttons Functions - Clear - Complete - AddCart - Save
-
   const handlerClearSelectedNumbers = () => {
     return setSelectedNumbers([]);
   };
 
-  //BugHere
   const handlerCompleteGame = () => {
     setSelectedNumbers([]);
     const { range } = gameChoice;
@@ -163,14 +125,12 @@ export const AppGameMod = () => {
     } else {
       while (selectArray.length < gameChoice["max-number"]) {
         const randomNumber = String(Math.ceil(Math.random() * range));
-
-        selectArray.push(randomNumber);
-        console.log(randomNumber);
+        if (selectArray.indexOf(randomNumber) === -1) {
+          selectArray.push(randomNumber);
+        }
       }
       setSelectedNumbers((prevState) => [...prevState, ...selectArray]);
     }
-
-    //console.log(range, randomNumber, completeGame);
   };
 
   const handlerAddCart = () => {
@@ -196,6 +156,7 @@ export const AppGameMod = () => {
       }
 
       setCartGames((prevState) => [...prevState, newCartGame]);
+      setSelectedNumbers([]);
     } catch (error) {
       setMessageToUser({
         title: "Ocorreu um erro !",
@@ -269,30 +230,22 @@ export const AppGameMod = () => {
               <strong>NEW BET</strong> <span>FOR {gameChoice.type}</span>
             </Title>
             <span>Choose a game</span>
-            <div className="grid-bet-container-gamer-mode">
-              {apiReponse.map((game) => (
-                <ButtonGame
-                  key={game.type}
-                  color={game.color}
-                  onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                    event.preventDefault();
-                    handleButtonGameMode(game.type);
-                  }}
-                  isActive={game.type === gameChoice.type}
-                >
-                  {game.type}
-                </ButtonGame>
-              ))}
-            </div>
+            <AppGamesApiResponse
+              apiReponse={apiReponse}
+              gameChoice={gameChoice}
+              handleButtonGameMode={handleButtonGameMode}
+            />
 
             <div className="grid-bet-container-description">
               <h3>Fill your bet</h3>
               <p>{gameChoice.description}</p>
             </div>
 
-            <div className="grid-bet-container-gamerange">
-              {gameBetNumbers()}
-            </div>
+            <AppGameInputNumbers
+              gameChoice={gameChoice}
+              handlerInputValue={handlerInputValue}
+              selectedNumbers={selectedNumbers}
+            />
 
             <section className="grid-bet-container-buttons">
               <div className="generic-btn">

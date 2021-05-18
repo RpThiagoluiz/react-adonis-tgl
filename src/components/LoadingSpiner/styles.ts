@@ -7,6 +7,11 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
 
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+
   > .spinner {
     display: inline-block;
     width: 280px;
