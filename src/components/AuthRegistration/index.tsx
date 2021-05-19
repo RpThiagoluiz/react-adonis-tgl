@@ -1,4 +1,3 @@
-//import { useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
@@ -17,6 +16,20 @@ export const AuthRegistration = () => {
     active: false,
   });
   const [redirect, setRedirect] = useState(false);
+
+  const [enteredUserData, setEnteredUserData] = useState({
+    enteredUserName: false,
+    enteredUserEmail: false,
+    enteredUserPassword: false,
+  });
+
+  //valid for Send
+  const isEmptyName = (value: string) => value.trim().length >= 3;
+  const isEmptyEmail = (value: string) => value.trim() !== "";
+  const isValidRegex = (value: string) =>
+    /^[\w+.]*@\w+.(?:[A-Z]{2,})?.[\w\w]*$/.test(value);
+  const isMinChars = (value: string) => value.trim().length >= 6;
+
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -38,24 +51,34 @@ export const AuthRegistration = () => {
 
       try {
         if (name && email && password) {
-          //validar os campos. e enviar caso validos.
-          const userData: UserProps = {
-            id: String(new Date().getTime()),
-            name,
-            email,
-            password,
-            recentGames: [],
-          };
+          const enteredName = isEmptyName(name);
+          const enteredEmail = isEmptyEmail(email) && isValidRegex(email);
+          const enteredPassword = isMinChars(password);
 
-          setMessageToUser({
-            title: `Ola,${userData.name}`,
-            description:
-              "Seu cadastrado foi realizado com sucesso, aproveite! 🎉 ",
-            color: "var(--green)",
-            active: true,
-          });
-          dispatch(addUser(userData));
-          setRedirect(true);
+          const formIsValid = enteredName && enteredEmail && enteredPassword;
+
+          if (formIsValid) {
+            const userData: UserProps = {
+              id: String(new Date().getTime()),
+              name,
+              email,
+              password,
+              recentGames: [],
+            };
+            setMessageToUser({
+              title: `Ola,${userData.name}`,
+              description:
+                "Seu cadastrado foi realizado com sucesso, aproveite! 🎉 ",
+              color: "var(--green)",
+              active: true,
+            });
+            dispatch(addUser(userData));
+            setRedirect(true);
+          } else {
+            throw new Error(
+              `Dados Invalidos! Nome deve ter ao menos 3 letras | Email deve ser valido | Senha deve ter pelo menos 6 caracteres!`
+            );
+          }
         } else {
           throw new Error(`error on create a data `);
         }
