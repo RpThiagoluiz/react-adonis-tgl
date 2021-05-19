@@ -7,7 +7,7 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
 
-  margin-top: -2rem;
+  margin-top: -11rem;
   h1,
   h2 {
     color: var(--gray-700);

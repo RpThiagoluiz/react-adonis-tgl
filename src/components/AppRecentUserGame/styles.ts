@@ -26,7 +26,7 @@ export const CartItem = styled.button<ColorProps>`
     font-weight: bold;
     line-height: 1.75rem;
 
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
   }
 
   > div {
@@ -43,6 +43,21 @@ export const CartItem = styled.button<ColorProps>`
     font-size: 1.4rem;
     font-style: italic;
     color: ${(props) => props.color};
+  }
+
+  @media (max-width: 780px) {
+    // width: 100%;
+    padding: 0.25rem;
+    margin-bottom: 0.75rem;
+
+    > p {
+      font-size: 1rem;
+      font-style: italic;
+      font-weight: bold;
+      line-height: 1.5rem;
+
+      //margin-bottom: 2rem;
+    }
   }
 `;
 

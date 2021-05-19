@@ -26,4 +26,7 @@ export const InputGame = styled.input<InputProps>`
   border-radius: 50%;
 
   cursor: pointer;
+  @media (max-width: 520px) {
+    margin: 0.25rem 0.5rem 0.25rem 0.15rem;
+  }
 `;

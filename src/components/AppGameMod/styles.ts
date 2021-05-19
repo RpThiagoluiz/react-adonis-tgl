@@ -5,8 +5,11 @@ interface CartItemProps {
 }
 
 export const Container = styled.section`
-  height: auto;
   margin: 2.625rem 8.75rem 1rem 8.75rem;
+
+  @media (max-width: 780px) {
+    margin: 1.75rem;
+  }
 `;
 
 export const Grid = styled.section`
@@ -14,7 +17,13 @@ export const Grid = styled.section`
   grid-template-columns: 1fr 40rem;
   grid-template-rows: 1fr;
 
-  grid-gap: 2.4rem; //41px
+  grid-gap: 2.5625rem; //41px\\
+
+  @media (max-width: 780px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 `;
 
 export const GridBet = styled.section`
@@ -86,7 +95,7 @@ export const GridBet = styled.section`
         align-items: center;
         justify-content: space-around;
 
-        font-size: 19px;
+        font-size: 1.2rem;
 
         border: none;
         border-radius: 10px;
@@ -94,6 +103,37 @@ export const GridBet = styled.section`
         color: var(--white);
         background-color: var(--green-900);
       }
+    }
+  }
+
+  @media (max-width: 780px) {
+    > .grid-bet-container-gamer-mode {
+      margin: 0.25rem;
+    }
+
+    > .grid-bet-container-buttons {
+      flex-direction: column;
+      margin: 0.5rem;
+
+      > .generic-btn {
+        margin: auto;
+        > button {
+          width: 10rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      > .add-cart {
+        margin-top: 2rem;
+        margin-left: 0.25rem;
+      }
+    }
+  }
+
+  @media (max-width: 290px) {
+    > .grid-bet-container-buttons {
+      flex-direction: column;
+      justify-content: flex-start;
     }
   }
 `;
@@ -112,7 +152,7 @@ export const GridCart = styled.aside`
   flex-direction: column;
   position: relative;
 
-  width: 420px;
+  width: 25rem;
 
   max-height: 500px;
 
@@ -124,7 +164,7 @@ export const GridCart = styled.aside`
     padding-top: 3rem;
     padding-left: 1rem;
 
-    font-size: 24px;
+    font-size: 1.5rem;
     font-style: italic;
     color: var(--gray-700);
     margin-bottom: 46px;
@@ -173,12 +213,12 @@ export const GridCart = styled.aside`
     > .grid-cart-total {
       position: absolute;
 
-      margin-bottom: 47px;
-      margin-left: 16px;
-      bottom: 96px;
+      margin-bottom: 3rem;
+      margin-left: 1rem;
+      bottom: 6rem;
 
       color: var(--gray-700);
-      font-size: 28px;
+      font-size: 1.8rem;
       > span {
         > strong {
           font-style: italic;
@@ -199,6 +239,32 @@ export const GridCart = styled.aside`
       > svg {
         width: 24px;
         height: 20px;
+      }
+    }
+  }
+
+  @media (max-width: 780px) {
+    width: 90%;
+    height: 28rem;
+
+    margin: 2rem auto;
+
+    > h3 {
+      margin: 0 0 1rem 0;
+    }
+
+    > div {
+      > .grid-cart-container-section {
+        > div {
+          > svg {
+            width: 2rem;
+            opacity: 0.8;
+          }
+        }
+      }
+
+      > .grid-cart-total {
+        font-size: 1.5rem;
       }
     }
   }
@@ -224,6 +290,12 @@ export const CartItem = styled.section<CartItemProps>`
     }
     > span {
       color: var(--green-800);
+    }
+  }
+
+  @media (max-width: 720px) {
+    > p {
+      width: 100%;
     }
   }
 `;

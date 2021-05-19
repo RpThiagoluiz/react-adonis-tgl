@@ -16,7 +16,7 @@ export const BackDrop = styled.div`
 export const CardWrapper = styled.div<ColorProps>`
   position: fixed;
   top: 30vh;
-  left: 10%;
+  left: 25vw;
   z-index: 100;
   //overflow: hidden;
 
@@ -70,8 +70,9 @@ export const CardWrapper = styled.div<ColorProps>`
     }
   }
 
-  @media (min-width: 768px) {
-    left: calc(50% - 20rem);
-    width: 40rem;
+  @media (max-width: 768px) {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    left: auto;
   }
 `;

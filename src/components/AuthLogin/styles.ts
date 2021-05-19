@@ -7,7 +7,8 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
 
-  margin-top: 5rem;
+  // margin-top: 5rem;
+  margin-bottom: 5rem;
 
   > h2 {
     color: var(--gray-700);
@@ -86,6 +87,7 @@ export const Form = styled.form`
   @media (max-width: 500px) {
     width: 70%;
     > a {
+      bottom: 7.875rem;
       font-size: 0.9rem;
     }
     > .sing-in {

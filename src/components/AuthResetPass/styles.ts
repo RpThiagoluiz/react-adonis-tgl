@@ -22,7 +22,7 @@ export const Container = styled.section`
     align-items: center;
     justify-content: center;
 
-    margin-top: 80px;
+    margin-top: 5rem;
     font-size: 2.2rem;
     font-weight: bold;
     font-style: italic;
@@ -35,6 +35,25 @@ export const Container = styled.section`
     margin-top: 2rem;
     > h2 {
       font-size: 1.2rem;
+    }
+
+    > .back {
+      /* position: absolute;
+      bottom: 5rem; */
+      width: 8rem;
+
+      margin-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    > .back {
+      /* position: absolute;
+      bottom: 2rem; */
+      left: 1rem;
+
+      font-size: 1rem;
+      width: 8rem;
     }
   }
 `;

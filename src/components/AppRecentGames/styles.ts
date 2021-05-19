@@ -29,7 +29,6 @@ export const Container = styled.section`
 `;
 
 export const BetContainer = styled.section`
-  color: red;
   margin-left: 9rem;
   margin-top: 72px;
 
@@ -39,16 +38,36 @@ export const BetContainer = styled.section`
     margin-bottom: 2.5rem;
 
     > h2 {
-      font-size: 24px;
+      font-size: 2rem;
       color: var(--gray-700);
       margin-right: 45px;
     }
 
     > span {
-      font-size: 17px;
+      font-size: 1.1rem;
       font-style: italic;
       color: var(--gray-800);
       margin-right: 1rem;
+    }
+  }
+
+  @media (max-width: 780px) {
+    margin: 1.75rem;
+    > section {
+      flex-direction: column;
+      margin-bottom: 0.5rem;
+
+      > h2 {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  @media (max-width: 520px) {
+    > section {
+      > div {
+        width: 25rem;
+      }
     }
   }
 `;
@@ -124,10 +143,13 @@ export const NewBetContainer = styled.section`
   display: flex;
   align-items: center;
 
-  margin-top: 6rem;
-  margin-right: 14rem;
+  position: fixed;
+  right: 14rem;
 
-  font-size: 24px;
+  margin-top: 6rem;
+  //margin-right: 14rem;
+
+  font-size: 1.5rem;
   font-weight: bold;
   font-style: italic;
   color: var(--green-900);
@@ -136,5 +158,18 @@ export const NewBetContainer = styled.section`
     text-decoration: none;
     color: var(--green-900);
     margin-right: 11px;
+  }
+
+  @media (max-width: 780px) {
+    margin-top: 0;
+    top: 6rem;
+    right: 4rem;
+  }
+
+  @media (max-width: 420px) {
+    top: 6rem;
+    right: 2rem;
+
+    font-size: 1rem;
   }
 `;

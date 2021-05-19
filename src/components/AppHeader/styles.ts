@@ -54,7 +54,7 @@ export const Header = styled.header`
       }
     }
   }
-  @media (max-width: 920px) {
+  /* @media (max-width: 920px) {
     > nav {
       > .btn-mobile {
         position: absolute;
@@ -78,5 +78,5 @@ export const Header = styled.header`
         }
       }
     }
-  }
+  } */
 `;

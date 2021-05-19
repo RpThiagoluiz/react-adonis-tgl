@@ -1,13 +1,13 @@
 # Init
 
-**Reponsive designers**
-
-salvar o games dentro do recentGames do meu user -> resolver com hook e localStorage.
+**Valid UserData For Send**
+RF11. Just Send Form when all userData is valid.
 
 **Falta**
 
-RF10. Reponsive Designers.
 RF11. Just Send Form when all userData is valid.
+
+??salvar o games dentro do recentGames do meu user -> resolver com hook e localStorage.??
 
 **Completo**
 _RF01. Validar o e-mail no registro, login e no reset password_
@@ -19,3 +19,4 @@ _RF06. Delete: apagar um item do carrinho_
 _RF07. Save: adicionar jogos no redux (acima de R$ 30,00)_
 _RF08. Listar os jogos após cadastrados_
 _RF09. Criar filtro para listagem e criação de jogos._
+_RF10. Reponsive Designers._

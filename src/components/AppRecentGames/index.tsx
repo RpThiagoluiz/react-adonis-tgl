@@ -23,6 +23,7 @@ import { api } from "../../services/api";
 import { LoadingSpinner } from "../LoadingSpiner";
 import { AppGamesApiResponse } from "../AppGamesApiResponse";
 import { AppRecentUserGame } from "../AppRecentUserGame";
+import { Footer } from "../Footer";
 
 export const AppRecentGames = () => {
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
@@ -104,20 +105,6 @@ export const AppRecentGames = () => {
               <h2>RECENT GAMES</h2>
               <span>Filters</span>
               <div>
-                {/* {apiReponse.map((game) => (
-                  <ButtonGame
-                    key={game.type}
-                    color={game.color}
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                      event.preventDefault();
-                      handleButtonGameMode(game.type);
-                    }}
-                    isActive={game.type === gameChoice.type}
-                  >
-                    {game.type}
-                  </ButtonGame>
-                ))} */}
-
                 <AppGamesApiResponse
                   apiReponse={apiReponse}
                   gameChoice={gameChoice}
@@ -127,31 +114,13 @@ export const AppRecentGames = () => {
             </section>
 
             <AppRecentUserGame games={games} filter={gameChoice} />
-
-            {/* {!!games.length ? (
-              games.map((game: any) => (
-                <CartItem key={game.id} color={game.color}>
-                  <p>{formatNumberInArray(game.gameNumbers)}</p>
-                  <div>
-                    <p>
-                      {dateFormatValue(new Date(game.betDate))} - (
-                      {currencyValue(game.price)})
-                    </p>
-                  </div>
-                  <strong>{game.type}</strong>
-                </CartItem>
-              ))
-            ) : (
-              <Empty>
-                <EmptyCart color="var(--red)" />
-              </Empty>
-            )} */}
           </BetContainer>
           <NewBetContainer>
             <Link to="/newbet"> New Bet</Link> <HiOutlineArrowRight />
           </NewBetContainer>
         </Container>
       )}
+      <Footer />
     </>
   );
 };

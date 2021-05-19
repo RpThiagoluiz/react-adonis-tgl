@@ -16,6 +16,7 @@ import { ErrorProps } from "../../@types/Error";
 import { useHistory } from "react-router-dom";
 import { AppGameInputNumbers } from "../AppGameInputNumbers";
 import { AppGamesApiResponse } from "../AppGamesApiResponse";
+import { Footer } from "../Footer";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -349,6 +350,7 @@ export const AppGameMod = () => {
           </GridCart>
         </Grid>
       )}
+      <Footer />
     </Container>
   );
 };

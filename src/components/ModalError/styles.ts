@@ -9,14 +9,14 @@ export const BackDrop = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   z-index: 10;
   background: rgba(0, 0, 0, 0.459);
 `;
 export const CardWrapper = styled.div<ColorProps>`
   position: fixed;
   top: 30vh;
-  left: 10%;
+  left: 50vw;
   z-index: 100;
   //overflow: hidden;
 
@@ -71,8 +71,10 @@ export const CardWrapper = styled.div<ColorProps>`
     }
   }
 
-  @media (min-width: 768px) {
-    left: calc(50% - 20rem);
-    width: 40rem;
+  @media (max-width: 768px) {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    left: 0;
+    right: 9rem;
   }
 `;

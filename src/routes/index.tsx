@@ -17,9 +17,10 @@ export const Routes = () => {
           <AppHeader /> <AppRoutes />
         </>
       ) : (
-        <AuthRoutes />
+        <>
+          <AuthRoutes /> <Footer />
+        </>
       )}
-      <Footer />
     </BrowserRouter>
   );
 };
