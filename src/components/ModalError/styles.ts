@@ -20,6 +20,8 @@ export const CardWrapper = styled.div<ColorProps>`
   z-index: 100;
   //overflow: hidden;
 
+  width: 50rem;
+
   background-color: var(--white);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 10px;
@@ -76,5 +78,7 @@ export const CardWrapper = styled.div<ColorProps>`
     margin-right: 1rem;
     left: 0;
     right: 9rem;
+
+    width: auto;
   }
 `;

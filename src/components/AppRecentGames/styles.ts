@@ -66,7 +66,7 @@ export const BetContainer = styled.section`
   @media (max-width: 520px) {
     > section {
       > div {
-        width: 25rem;
+        width: 15rem;
       }
     }
   }

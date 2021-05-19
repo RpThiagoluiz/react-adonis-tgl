@@ -23,29 +23,28 @@ export const AppRecentUserGame = ({
   //Caso exista vc tras somente os que tem o msm tipo
 
   useEffect(() => {
-    userGames();
     setFilterGame(filter.type);
   }, [filter]);
 
-  const userGames = () =>
-    !!games.length ? (
-      games.map((game: any) => (
-        <CartItem key={game.id} color={game.color}>
-          <p>{formatNumberInArray(game.gameNumbers)}</p>
-          <div>
-            <p>
-              {dateFormatValue(new Date(game.betDate))} - (
-              {currencyValue(game.price)})
-            </p>
-          </div>
-          <strong>{game.type}</strong>
-        </CartItem>
-      ))
-    ) : (
-      <EmptyContainer>
-        <EmptyCart color="var(--red)" />
-      </EmptyContainer>
-    );
+  // const userGames = () =>
+  //   !!games.length ? (
+  //     games.map((game: any) => (
+  //       <CartItem key={game.id} color={game.color}>
+  //         <p>{formatNumberInArray(game.gameNumbers)}</p>
+  //         <div>
+  //           <p>
+  //             {dateFormatValue(new Date(game.betDate))} - (
+  //             {currencyValue(game.price)})
+  //           </p>
+  //         </div>
+  //         <strong>{game.type}</strong>
+  //       </CartItem>
+  //     ))
+  //   ) : (
+  //     <EmptyContainer>
+  //       <EmptyCart color="var(--red)" />
+  //     </EmptyContainer>
+  //   );
 
   const filteredGames = () => {
     if (filterGame === "") {

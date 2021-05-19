@@ -18,7 +18,7 @@ export const InputGame = styled.input<InputProps>`
   font-size: 1.25rem;
   font-weight: bold;
 
-  color: #fff;
+  color: var(--white);
   background-color: ${({ isActive }) =>
     isActive ? "var(--green-900)" : "var(--cyan-gray)"};
 

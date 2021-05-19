@@ -61,8 +61,4 @@ export const CartItem = styled.button<ColorProps>`
   }
 `;
 
-export const EmptyContainer = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-`;
+export const EmptyContainer = styled.div``;

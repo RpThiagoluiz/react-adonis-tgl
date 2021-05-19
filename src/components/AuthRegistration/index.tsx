@@ -17,12 +17,6 @@ export const AuthRegistration = () => {
   });
   const [redirect, setRedirect] = useState(false);
 
-  const [enteredUserData, setEnteredUserData] = useState({
-    enteredUserName: false,
-    enteredUserEmail: false,
-    enteredUserPassword: false,
-  });
-
   //valid for Send
   const isEmptyName = (value: string) => value.trim().length >= 3;
   const isEmptyEmail = (value: string) => value.trim() !== "";

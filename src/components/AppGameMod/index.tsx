@@ -90,33 +90,6 @@ export const AppGameMod = () => {
     setIsLoading(false);
   };
 
-  // const handlerInputValue = (event: any) => {
-  //   let newValue = event.currentTarget.value;
-  //   const indexSelected = selectedNumbers.indexOf(newValue);
-  //   const numExists = indexSelected === -1;
-  //   const maxNumbersSelected =
-  //     selectedNumbers.length < gameChoice["max-number"];
-  // try {
-  //   if (numExists && maxNumbersSelected) {
-  //     setSelectedNumbers((prevState) => [...prevState, newValue]);
-  //   } else if (!numExists) {
-  //     setSelectedNumbers((prevState) => prevState.splice(indexSelected, 1));
-  //   } else {
-  //     throw new Error(
-  //       `Quantidade selecionada, excede a quantidade maxima ${gameChoice["max-number"]}`
-  //     );
-  //   }
-  // } catch (error) {
-  //   setRedirect(false);
-  //   setMessageToUser({
-  //     title: "☹ Numeros Selecionados",
-  //     description: error.message,
-  //     color: "var(--red)",
-  //     active: true,
-  //   });
-  // }
-  // };
-
   const handlerInputValue = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       const newValue = event.currentTarget.value;

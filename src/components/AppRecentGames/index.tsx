@@ -1,20 +1,7 @@
 import { Link } from "react-router-dom";
 import { HiOutlineArrowRight } from "react-icons/hi";
-import {
-  Container,
-  Empty,
-  ButtonGame,
-  CartItem,
-  NewBetContainer,
-  BetContainer,
-} from "./styles";
+import { Container, NewBetContainer, BetContainer } from "./styles";
 import { useSelector } from "react-redux";
-import {
-  currencyValue,
-  formatNumberInArray,
-  dateFormatValue,
-} from "../../utils";
-import { EmptyCart } from "../EmptyCart";
 import { ModalError } from "../ModalError";
 import { useEffect, useState } from "react";
 import { GameTypesProps } from "../../@types/GameTypes";
@@ -43,7 +30,6 @@ export const AppRecentGames = () => {
     color: "",
     active: false,
   });
-  const [] = useState();
 
   const { games } = useSelector((state: any) => state.cart);
 
@@ -90,7 +76,6 @@ export const AppRecentGames = () => {
 
     setGameChoice(gameChoice[0]);
     setIsLoading(false);
-    //console.log(gameChoice[0].type);
   };
 
   return (

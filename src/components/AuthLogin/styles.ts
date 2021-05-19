@@ -7,7 +7,7 @@ export const Container = styled.section`
   align-items: center;
   justify-content: center;
 
-  // margin-top: 5rem;
+  //margin-top: 5rem;
   margin-bottom: 5rem;
 
   > h2 {
