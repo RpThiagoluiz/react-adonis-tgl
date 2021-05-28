@@ -3,10 +3,11 @@ import { HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 import { UserActions } from "../../store/userSlice";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { UserProps } from "../../@types/User";
 import { ErrorProps } from "../../@types/Error";
 import { AuthToast } from "../AuthToast";
+import { api } from "../../services/api";
 
 export const AuthLogin = () => {
   const [messageToUser, setMessageToUser] = useState<ErrorProps>({
@@ -16,11 +17,30 @@ export const AuthLogin = () => {
     active: false,
   });
 
+  //const [users, setUsers] = useState<any>([]);
+
   const dispatch = useDispatch();
   const { users } = useSelector((state: any) => state.user);
   const { logIn } = UserActions;
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  //Testing
+
+  // useEffect(() => {
+  //   async function getUsers() {
+  //     try {
+  //       await api.get("/users").then((response) => {
+  //         const { data } = response;
+
+  //         setUsers(data);
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   getUsers();
+  // }, []);
 
   const handleSubmit = (event: FormEvent) => {
     const email = emailInputRef.current?.value;
@@ -29,15 +49,19 @@ export const AuthLogin = () => {
 
     try {
       if (email && password) {
-        const findUser = users.find((user: UserProps) => user.email === email);
+        if (email && password) {
+          const findUser = users.find(
+            (user: UserProps) => user.email === email
+          );
 
-        if (!findUser) {
-          throw new Error("Usuario não existe");
-        }
-        if (findUser.password !== password && findUser.email !== email) {
-          throw new Error("Dados nao conferem!!!");
-        } else {
-          dispatch(logIn());
+          if (!findUser) {
+            throw new Error("Usuario não existe");
+          }
+          if (findUser.password !== password && findUser.email !== email) {
+            throw new Error("Dados nao conferem!!!");
+          } else {
+            dispatch(logIn());
+          }
         }
       }
     } catch (error) {

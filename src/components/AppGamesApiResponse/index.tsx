@@ -2,19 +2,19 @@ import { GameTypesProps } from "../../@types/GameTypes";
 import { ButtonGame, Container } from "./styles";
 
 interface AppGamesApiResponseProps {
-  apiReponse: GameTypesProps[];
+  apiResponse: GameTypesProps[];
   gameChoice: GameTypesProps;
   handleButtonGameMode: (gameType: string) => void;
 }
 
 export const AppGamesApiResponse = ({
-  apiReponse,
+  apiResponse,
   gameChoice,
   handleButtonGameMode,
 }: AppGamesApiResponseProps) => {
   return (
     <Container>
-      {apiReponse.map((game) => (
+      {apiResponse.map((game) => (
         <ButtonGame
           key={game.type}
           color={game.color}

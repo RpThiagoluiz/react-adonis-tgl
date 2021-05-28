@@ -16,6 +16,7 @@ export const AppRecentGames = () => {
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [gameChoice, setGameChoice] = useState<GameTypesProps>({
+    id: 0,
     type: "",
     description: "",
     range: 0,
@@ -91,7 +92,7 @@ export const AppRecentGames = () => {
               <span>Filters</span>
               <div>
                 <AppGamesApiResponse
-                  apiReponse={apiReponse}
+                  apiResponse={apiReponse}
                   gameChoice={gameChoice}
                   handleButtonGameMode={handleButtonGameMode}
                 />

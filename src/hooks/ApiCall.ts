@@ -6,6 +6,7 @@ export const ApiCallResponse = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
   const [gameChoice, setGameChoice] = useState<GameTypesProps>({
+    id: 0,
     type: "",
     description: "",
     range: 0,
@@ -19,7 +20,7 @@ export const ApiCallResponse = () => {
     async function getGames() {
       setIsLoading(true);
       try {
-        await api.get<GameTypesProps[]>("/types").then((response) => {
+        await api.get<GameTypesProps[]>("/game").then((response) => {
           const { data } = response;
           const findLotofacil = data.filter(
             (game) => game.type === "Lotofácil"

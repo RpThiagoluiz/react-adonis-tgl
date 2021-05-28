@@ -4,6 +4,7 @@ import { Container, Form, FormContent } from "./styles";
 import { FormEvent, useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { UserActions } from "../../store/userSlice";
+import { CreateUser } from "../../store/actions/userActions";
 import { UserProps } from "../../@types/User";
 import { ErrorProps } from "../../@types/Error";
 import { AuthToast } from "../AuthToast";
@@ -30,7 +31,7 @@ export const AuthRegistration = () => {
 
   const { push } = useHistory();
   const dispatch = useDispatch();
-  const { addUser } = UserActions;
+  //const { addUser } = UserActions;
 
   const handlerBackButton = () => {
     push("/");
@@ -53,11 +54,11 @@ export const AuthRegistration = () => {
 
           if (formIsValid) {
             const userData: UserProps = {
-              id: String(new Date().getTime()),
+              //id: Number(new Date().getTime()),
               name,
               email,
               password,
-              recentGames: [],
+              //recentGames: [],
             };
             setMessageToUser({
               title: `Ola,${userData.name}`,
@@ -66,7 +67,8 @@ export const AuthRegistration = () => {
               color: "var(--green)",
               active: true,
             });
-            dispatch(addUser(userData));
+
+            dispatch(CreateUser(userData));
             setRedirect(true);
           } else {
             throw new Error(
@@ -86,7 +88,7 @@ export const AuthRegistration = () => {
         setRedirect(false);
       }
     },
-    [addUser, dispatch]
+    [dispatch]
   );
 
   const toggletToast = () => {

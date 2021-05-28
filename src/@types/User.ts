@@ -7,9 +7,9 @@ export interface SavedGame {
 }
 
 export interface UserProps {
-  id: string;
+  id?: number;
   name: string;
   email: string;
   password: string;
-  recentGames: SavedGame[];
+  recentGames?: SavedGame[];
 }

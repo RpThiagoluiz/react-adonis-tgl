@@ -23,6 +23,7 @@ export const AppGameMod = () => {
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
   const [redirect, setRedirect] = useState(false);
   const [gameChoice, setGameChoice] = useState<GameTypesProps>({
+    id: 0,
     type: "",
     description: "",
     range: 0,
@@ -47,7 +48,7 @@ export const AppGameMod = () => {
     async function getGames() {
       setIsLoading(true);
       try {
-        await api.get<GameTypesProps[]>("/types").then((response) => {
+        await api.get<GameTypesProps[]>("/game").then((response) => {
           const { data } = response;
 
           const findLotofacil = data.filter(
@@ -156,9 +157,6 @@ export const AppGameMod = () => {
   };
 
   const handlerAddCart = () => {
-    //antes de adc, verificar a quantidade de numeros,
-    //verificar carrinho esta correto.
-    //assim que adc, atualizar o valor do total.
     try {
       const { type, price, color } = gameChoice;
       const numbersChoice = [...selectedNumbers].map((el) => Number(el));
@@ -253,7 +251,7 @@ export const AppGameMod = () => {
             </Title>
             <span>Choose a game</span>
             <AppGamesApiResponse
-              apiReponse={apiReponse}
+              apiResponse={apiReponse}
               gameChoice={gameChoice}
               handleButtonGameMode={handleButtonGameMode}
             />
