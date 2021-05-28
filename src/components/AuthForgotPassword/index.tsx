@@ -7,7 +7,7 @@ import { AuthToast } from "../AuthToast";
 import { api } from "../../services/api";
 import { Spinner } from "../ButtonSpinner/styles";
 
-export const AuthResetPass = () => {
+export const AuthForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [messageToUser, setMessageToUser] = useState<ErrorProps>({
     title: "",
@@ -101,7 +101,7 @@ export const AuthResetPass = () => {
     <Container>
       {messageToUser.active && toast}
       <h2>
-        <strong>Reset Password</strong>
+        <strong>Forgot Password</strong>
       </h2>
       <Form onSubmit={handleSubmit}>
         <FormContent>

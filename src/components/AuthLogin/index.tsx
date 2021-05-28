@@ -115,7 +115,7 @@ export const AuthLogin = () => {
             ref={passwordInputRef}
           />
         </FormContent>
-        <Link to="/resetpassword">I forget my password</Link>
+        <Link to="/forgotpassword">I forget my password</Link>
         <button type="submit" className="sing-in">
           <span>Log In</span>
 

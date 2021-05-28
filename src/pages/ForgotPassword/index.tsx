@@ -1,12 +1,12 @@
 import { AuthHeader } from "../../components/AuthHeader";
-import { AuthResetPass } from "../../components/AuthResetPass";
+import { AuthForgotPassword } from "../../components/AuthForgotPassword";
 import { AuthLayout } from "../../layout/auth";
 
-export const ResetPassword = () => {
+export const Forgotpassword = () => {
   return (
     <AuthLayout>
       <AuthHeader />
-      <AuthResetPass />
+      <AuthForgotPassword />
     </AuthLayout>
   );
 };
