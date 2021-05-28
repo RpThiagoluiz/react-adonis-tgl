@@ -17,30 +17,11 @@ export const AuthLogin = () => {
     active: false,
   });
 
-  //const [users, setUsers] = useState<any>([]);
-
   const dispatch = useDispatch();
   const { users } = useSelector((state: any) => state.user);
   const { logIn } = UserActions;
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-
-  //Testing
-
-  // useEffect(() => {
-  //   async function getUsers() {
-  //     try {
-  //       await api.get("/users").then((response) => {
-  //         const { data } = response;
-
-  //         setUsers(data);
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   getUsers();
-  // }, []);
 
   const handleSubmit = (event: FormEvent) => {
     const email = emailInputRef.current?.value;

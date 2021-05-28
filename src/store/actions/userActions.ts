@@ -16,10 +16,10 @@ export const CreateUser = (userData: UserProps) => {
       });
       return response;
     };
-    try {
-      await sendData();
-    } catch (error) {
-      alert(error.message);
+    await sendData();
+
+    if (!sendData()) {
+      throw new Error("BRABO DEU CERTO! nao cadastrado");
     }
   };
 };

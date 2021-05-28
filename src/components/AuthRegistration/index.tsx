@@ -3,13 +3,14 @@ import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 import { FormEvent, useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { UserActions } from "../../store/userSlice";
-import { CreateUser } from "../../store/actions/userActions";
 import { UserProps } from "../../@types/User";
 import { ErrorProps } from "../../@types/Error";
 import { AuthToast } from "../AuthToast";
+import { api } from "../../services/api";
+import { Spinner } from "../ButtonSpinner/styles";
 
 export const AuthRegistration = () => {
+  const [loading, setLoading] = useState(false);
   const [messageToUser, setMessageToUser] = useState<ErrorProps>({
     title: "",
     description: "",
@@ -38,11 +39,21 @@ export const AuthRegistration = () => {
   };
 
   const handleSubmit = useCallback(
-    (event: FormEvent) => {
+    async (event: FormEvent) => {
       const name = nameInputRef.current?.value;
       const email = emailInputRef.current?.value;
       const password = passwordInputRef.current?.value;
       event.preventDefault();
+      setLoading(true);
+
+      const sendData = async (user: UserProps) => {
+        const response = await api.post("/users", {
+          username: user.name,
+          email: user.email,
+          password: user.password,
+        });
+        return response;
+      };
 
       try {
         if (name && email && password) {
@@ -54,12 +65,17 @@ export const AuthRegistration = () => {
 
           if (formIsValid) {
             const userData: UserProps = {
-              //id: Number(new Date().getTime()),
               name,
               email,
               password,
-              //recentGames: [],
             };
+
+            await sendData(userData);
+
+            if (!sendData(userData)) {
+              throw new Error("BRABO DEU CERTO! nao cadastrado");
+            }
+            setLoading(false);
             setMessageToUser({
               title: `Ola,${userData.name}`,
               description:
@@ -68,20 +84,18 @@ export const AuthRegistration = () => {
               active: true,
             });
 
-            dispatch(CreateUser(userData));
             setRedirect(true);
           } else {
-            throw new Error(
-              `Dados Invalidos! Nome deve ter ao menos 3 letras | Email deve ser valido | Senha deve ter pelo menos 6 caracteres!`
-            );
+            return;
           }
         } else {
-          throw new Error(`error on create a data `);
+          return;
         }
       } catch (error) {
+        setLoading(false);
         setMessageToUser({
           title: "Ocorreu um durante o cadastro !",
-          description: error.message,
+          description: `Email ja cadastrado, caso tenha esquecido a senha, basta acessar "forgotPassword" na tela inicial e seguir os passos. Ou cadastrar um novo email.`,
           color: "var(--red)",
           active: true,
         });
@@ -200,10 +214,14 @@ export const AuthRegistration = () => {
             onBlur={() => onBlurPassword()}
           />
 
-          <button type="submit" className="registration">
-            Registration
-            <HiOutlineArrowRight />
-          </button>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <button type="submit" className="registration">
+              Registration
+              <HiOutlineArrowRight />
+            </button>
+          )}
         </FormContent>
       </Form>
       <button className="back" onClick={handlerBackButton}>

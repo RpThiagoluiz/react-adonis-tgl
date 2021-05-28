@@ -3,6 +3,8 @@
 **_ test _**
 //Component global de modal para o usuario, caso haja uma error nas request ele vai mostrar ao usuario esses erros.
 
+Rota resetpassword, e forgetpassword. mudar o nome das rotas, criar nova pagina.
+
 -> Api call - axios
 criar um usuario, recuperar a senha dele, e logar o usuario.
 
