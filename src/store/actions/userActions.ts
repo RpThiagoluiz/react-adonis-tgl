@@ -6,6 +6,7 @@ import { api } from "../../services/api";
 //Add user, forgotpassword, resetPassword , -> getGame user
 
 export const CreateUser = (userData: UserProps) => {
+  //React Advanced
   return async () => {
     const sendData = async () => {
       const response = await api.post("/users", {
@@ -17,8 +18,25 @@ export const CreateUser = (userData: UserProps) => {
     };
     try {
       await sendData();
-    } catch (err) {
-      alert(err.message);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+};
+
+export const Forgotpassword = (userDataEmail: string) => {
+  return async () => {
+    const sendData = async () => {
+      const response = await api.post("/forgetpassword", {
+        email: userDataEmail,
+      });
+      return response;
+    };
+
+    try {
+      await sendData();
+    } catch (error) {
+      alert(error.message);
     }
   };
 };

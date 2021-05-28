@@ -2,13 +2,13 @@ import { FormEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
-
-import { UserProps } from "../../@types/User";
-import { useSelector } from "react-redux";
 import { ErrorProps } from "../../@types/Error";
 import { AuthToast } from "../AuthToast";
+import { api } from "../../services/api";
+import { Spinner } from "../ButtonSpinner/styles";
 
 export const AuthResetPass = () => {
+  const [loading, setLoading] = useState(false);
   const [messageToUser, setMessageToUser] = useState<ErrorProps>({
     title: "",
     description: "",
@@ -17,7 +17,6 @@ export const AuthResetPass = () => {
   });
   const [email, setEmail] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const { users } = useSelector((state: any) => state.user);
 
   const { push } = useHistory();
 
@@ -25,27 +24,37 @@ export const AuthResetPass = () => {
     push("/");
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
 
+    const sendData = async () => {
+      const response = await api.post("/forgetpassword", {
+        email: email,
+      });
+      return response;
+    };
     try {
-      const emailExists = users.find((user: UserProps) => user.email === email);
-      if (!emailExists) {
-        throw new Error(`email nao cadastrado`);
-      } else {
-        setMessageToUser({
-          title: "Email enviado",
-          description: "uma nova senha foi enviada para seu email informado",
-          color: "var(--green)",
-          active: true,
-        });
-        setRedirect(true);
+      await sendData();
+
+      if (!sendData()) {
+        throw new Error("email nao cadastrado");
       }
+      setLoading(false);
+      setMessageToUser({
+        title: "Email enviado",
+        description: "uma nova senha foi enviada para seu email informado",
+        color: "var(--green)",
+        active: true,
+      });
+
+      setRedirect(true);
     } catch (error) {
+      setLoading(false);
       setRedirect(false);
       setMessageToUser({
         title: "Ocorreu um erro !",
-        description: error.message,
+        description: `Email nao cadastrado`,
         color: "var(--red)",
         active: true,
       });
@@ -104,10 +113,14 @@ export const AuthResetPass = () => {
             onChange={(event) => setEmail(event.target.value)}
             onBlur={(event) => onBlurEmail(event.target.value)}
           />
-          <button type="submit" className="send-link">
-            <span>Send Link</span>
-            <HiOutlineArrowRight />
-          </button>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <button type="submit" className="send-link">
+              <span>Send Link</span>
+              <HiOutlineArrowRight />
+            </button>
+          )}
         </FormContent>
       </Form>
       <button className="back" onClick={handlerBackButton}>

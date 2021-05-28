@@ -1,6 +1,8 @@
 # Init
 
 **_ test _**
+//Component global de modal para o usuario, caso haja uma error nas request ele vai mostrar ao usuario esses erros.
+
 -> Api call - axios
 criar um usuario, recuperar a senha dele, e logar o usuario.
 
@@ -17,7 +19,6 @@ RNF01. Integração do front-end com o back-end utilizando o axios
 Requisitos Funcionais
 RF01. Login integrado
 RF02. Recuperação de senha
-RF03. Cadastro de usuário
 RF04. Listagem de jogos recentes
 RF05. Cadastro de apostas
 RF06. Edição de perfil
@@ -25,3 +26,4 @@ RF06. Edição de perfil
 Após finalizar, notifique seu líder.
 
 **Completo**
+_RF03. Cadastro de usuário_
