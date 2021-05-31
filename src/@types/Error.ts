@@ -3,4 +3,6 @@ export interface ErrorProps {
   description: string;
   color: string;
   active: boolean;
+  redirect?: boolean;
+  handleSvgError?: boolean;
 }

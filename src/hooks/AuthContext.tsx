@@ -49,8 +49,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         password,
       });
 
-      //console.log(response.status);
-
       const { token } = response.data.token;
       const user = response.data.user;
       //back devolvendo os dados do user, voltar somente email por la qlq coisa

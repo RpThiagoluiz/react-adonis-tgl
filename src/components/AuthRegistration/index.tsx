@@ -3,20 +3,12 @@ import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 import { FormEvent, useCallback, useRef, useState } from "react";
 import { UserProps } from "../../@types/User";
-import { ErrorProps } from "../../@types/Error";
-import { AuthToast } from "../AuthToast";
 import { api } from "../../services/api";
 import { Spinner } from "../ButtonSpinner/styles";
+import { useModalApp } from "../../hooks/ModalContext";
 
 export const AuthRegistration = () => {
   const [loading, setLoading] = useState(false);
-  const [messageToUser, setMessageToUser] = useState<ErrorProps>({
-    title: "",
-    description: "",
-    color: "",
-    active: false,
-  });
-  const [redirect, setRedirect] = useState(false);
 
   //valid for Send
   const isEmptyName = (value: string) => value.trim().length >= 3;
@@ -30,6 +22,7 @@ export const AuthRegistration = () => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const { push } = useHistory();
+  const { uxToUser } = useModalApp();
 
   const handlerBackButton = () => {
     push("/");
@@ -72,15 +65,15 @@ export const AuthRegistration = () => {
             throw new Error("BRABO DEU CERTO! nao cadastrado");
           }
           setLoading(false);
-          setMessageToUser({
+          uxToUser({
             title: `Ola,${userData.name}`,
             description:
               "Seu cadastrado foi realizado com sucesso, aproveite! 🎉 ",
             color: "var(--green)",
             active: true,
+            redirect: true,
+            handleSvgError: true,
           });
-
-          setRedirect(true);
         } else {
           return;
         }
@@ -89,30 +82,16 @@ export const AuthRegistration = () => {
       }
     } catch (error) {
       setLoading(false);
-      setMessageToUser({
+      uxToUser({
         title: "Ocorreu um durante o cadastro !",
         description: `Email ja cadastrado, caso tenha esquecido a senha, basta acessar "forgotPassword" na tela inicial e seguir os passos. Ou cadastrar um novo email.`,
         color: "var(--red)",
         active: true,
+        redirect: false,
+        handleSvgError: false,
       });
-      setRedirect(false);
     }
   }, []);
-
-  const toggletToast = () => {
-    setMessageToUser({ title: "", description: "", color: "", active: false });
-    redirect && push("/");
-  };
-
-  const toast = (
-    <AuthToast
-      color={messageToUser.color}
-      title={messageToUser.title}
-      description={messageToUser.description}
-      onClickClose={toggletToast}
-      handleSvgError={redirect}
-    />
-  );
 
   //Just send when all date is valid!
   const onBlurEmail = () => {
@@ -127,11 +106,13 @@ export const AuthRegistration = () => {
           );
         }
       } catch (error) {
-        setMessageToUser({
+        uxToUser({
           title: "Email Invalido",
           description: error.message,
           color: "var(--red)",
           active: true,
+          redirect: false,
+          handleSvgError: false,
         });
       }
     }
@@ -145,11 +126,13 @@ export const AuthRegistration = () => {
           throw new Error("Nome deve possuir pelo menos  3 letras!");
         }
       } catch (error) {
-        setMessageToUser({
+        uxToUser({
           title: "Name Invalido",
           description: error.message,
           color: "var(--red)",
           active: true,
+          redirect: false,
+          handleSvgError: false,
         });
       }
     }
@@ -163,11 +146,13 @@ export const AuthRegistration = () => {
           throw new Error(`Password deve conter pelo menos 6 caracteres`);
         }
       } catch (error) {
-        setMessageToUser({
+        uxToUser({
           title: "Password Invalido",
           description: error.message,
           color: "var(--red)",
           active: true,
+          redirect: false,
+          handleSvgError: false,
         });
       }
     }
@@ -175,7 +160,6 @@ export const AuthRegistration = () => {
 
   return (
     <Container>
-      {messageToUser.active && toast}
       <h2>
         <strong>Registration</strong>
       </h2>

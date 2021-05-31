@@ -1,4 +1,3 @@
-import { BrowserRouter } from "react-router-dom";
 import { Footer } from "../components/Footer";
 import { AuthRoutes } from "./auth.routes";
 import { AppRoutes } from "./app.routes";
@@ -9,7 +8,7 @@ export const Routes = () => {
   const { logged } = useAuth();
 
   return (
-    <BrowserRouter>
+    <>
       {logged ? (
         <>
           <AppHeader /> <AppRoutes />
@@ -19,6 +18,6 @@ export const Routes = () => {
           <AuthRoutes /> <Footer />
         </>
       )}
-    </BrowserRouter>
+    </>
   );
 };

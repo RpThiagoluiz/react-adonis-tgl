@@ -3,6 +3,7 @@ export interface ModalProps {
   description: string;
   color: string;
   onClickClose: React.MouseEventHandler<HTMLButtonElement>;
+  handleSvgError?: boolean;
 }
 
 export interface ToastProps {

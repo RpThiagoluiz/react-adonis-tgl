@@ -2,23 +2,18 @@ import { FormEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
-import { ErrorProps } from "../../@types/Error";
-import { AuthToast } from "../AuthToast";
+
 import { api } from "../../services/api";
 import { Spinner } from "../ButtonSpinner/styles";
+import { useModalApp } from "../../hooks/ModalContext";
 
 export const AuthForgotPassword = () => {
   const [loading, setLoading] = useState(false);
-  const [messageToUser, setMessageToUser] = useState<ErrorProps>({
-    title: "",
-    description: "",
-    color: "",
-    active: false,
-  });
+
   const [email, setEmail] = useState("");
-  const [redirect, setRedirect] = useState(false);
 
   const { push } = useHistory();
+  const { uxToUser } = useModalApp();
 
   const handlerBackButton = () => {
     push("/");
@@ -41,22 +36,24 @@ export const AuthForgotPassword = () => {
         throw new Error("email nao cadastrado");
       }
       setLoading(false);
-      setMessageToUser({
+      uxToUser({
         title: "Email enviado",
         description: "uma nova senha foi enviada para seu email informado",
         color: "var(--green)",
         active: true,
+        redirect: true,
+        handleSvgError: true,
       });
-
-      setRedirect(true);
     } catch (error) {
       setLoading(false);
-      setRedirect(false);
-      setMessageToUser({
+
+      uxToUser({
         title: "Ocorreu um erro !",
         description: `Email nao cadastrado`,
         color: "var(--red)",
         active: true,
+        redirect: false,
+        handleSvgError: false,
       });
     }
   };
@@ -72,34 +69,19 @@ export const AuthForgotPassword = () => {
         );
       }
     } catch (error) {
-      setRedirect(false);
-      setMessageToUser({
+      uxToUser({
         title: "Email Invalido",
         description: error.message,
         color: "var(--red)",
         active: true,
+        redirect: false,
+        handleSvgError: false,
       });
     }
   };
 
-  const toggletToast = () => {
-    setMessageToUser({ title: "", description: "", color: "", active: false });
-    redirect && push("/");
-  };
-
-  const toast = (
-    <AuthToast
-      color={messageToUser.color}
-      title={messageToUser.title}
-      description={messageToUser.description}
-      onClickClose={toggletToast}
-      handleSvgError={redirect}
-    />
-  );
-
   return (
     <Container>
-      {messageToUser.active && toast}
       <h2>
         <strong>Forgot Password</strong>
       </h2>

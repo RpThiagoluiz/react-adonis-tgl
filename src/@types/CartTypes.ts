@@ -1,4 +1,5 @@
 export interface GameToAddCartProps {
+  game_id?: number;
   id: string;
   type: string;
   price: number;

@@ -35,17 +35,3 @@ export const formatNumberInArray = (selectedNumber: number[]) => {
 
   return formateNumbers(numberResult);
 };
-
-export const formatNumberApiResponse = (selectedNumber: any[]) => {
-  const crescs = (cr1: number, cr2: number) => {
-    return cr1 - cr2;
-  };
-
-  const crescResult = [...selectedNumber];
-
-  const numberResult = crescResult.sort(crescs);
-
-  const formateNumbers = (numbers: any) => numbers.replace(/["]+/g, "");
-
-  return numberResult;
-};

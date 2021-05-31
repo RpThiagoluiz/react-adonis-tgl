@@ -1,20 +1,13 @@
 import { Link } from "react-router-dom";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
-import { FormEvent, useRef, useState } from "react";
-import { ErrorProps } from "../../@types/Error";
-import { AuthToast } from "../AuthToast";
+import { FormEvent, useRef } from "react";
 import { useAuth } from "../../hooks/AuthContext";
+import { useModalApp } from "../../hooks/ModalContext";
 
 export const AuthLogin = () => {
-  const [messageToUser, setMessageToUser] = useState<ErrorProps>({
-    title: "",
-    description: "",
-    color: "",
-    active: false,
-  });
-
   const { signIn } = useAuth();
+  const { uxToUser } = useModalApp();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -32,44 +25,17 @@ export const AuthLogin = () => {
         };
 
         await signIn(user);
-        // if (email && password) {
-        //   const findUser = users.find(
-        //     (user: UserProps) => user.email === email
-        //   );
-
-        //   if (!findUser) {
-        //     throw new Error("Usuario não existe");
-        //   }
-        //   if (findUser.password !== password && findUser.email !== email) {
-        //     throw new Error("Dados nao conferem!!!");
-        //   } else {
-        //     dispatch(logIn());
-        //   }
-        // }
       }
     } catch (error) {
-      setMessageToUser({
+      uxToUser({
         title: "Ocorreu um erro !",
         description: error.message,
         color: "var(--red)",
         active: true,
+        handleSvgError: false,
       });
     }
   };
-
-  const toggletToast = () => {
-    setMessageToUser({ title: "", description: "", color: "", active: false });
-  };
-
-  const toast = (
-    <AuthToast
-      color={messageToUser.color}
-      title={messageToUser.title}
-      description={messageToUser.description}
-      onClickClose={toggletToast}
-      handleSvgError={false}
-    />
-  );
 
   const onBlurEmail = () => {
     if (emailInputRef.current?.value) {
@@ -83,11 +49,12 @@ export const AuthLogin = () => {
           );
         }
       } catch (error) {
-        setMessageToUser({
+        uxToUser({
           title: "Email Invalido",
           description: error.message,
           color: "var(--red)",
           active: true,
+          handleSvgError: false,
         });
       }
     }
@@ -100,11 +67,12 @@ export const AuthLogin = () => {
           throw new Error(`Password deve conter pelo menos 6 caracteres`);
         }
       } catch (error) {
-        setMessageToUser({
+        uxToUser({
           title: "Password Invalido",
           description: error.message,
           color: "var(--red)",
           active: true,
+          handleSvgError: false,
         });
       }
     }
@@ -112,7 +80,6 @@ export const AuthLogin = () => {
 
   return (
     <Container>
-      {messageToUser.active && toast}
       <h2>
         <strong>Authentication</strong>
       </h2>

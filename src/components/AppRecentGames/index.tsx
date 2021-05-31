@@ -11,6 +11,7 @@ import { LoadingSpinner } from "../LoadingSpiner";
 import { AppGamesApiResponse } from "../AppGamesApiResponse";
 import { AppRecentUserGame } from "../AppRecentUserGame";
 import { Footer } from "../Footer";
+import { useModalApp } from "../../hooks/ModalContext";
 
 export const AppRecentGames = () => {
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
@@ -25,16 +26,10 @@ export const AppRecentGames = () => {
     color: "",
     "min-cart-value": 0,
   });
-  const [messageToUser, setMessageToUser] = useState<ErrorProps>({
-    title: "",
-    description: "",
-    color: "",
-    active: false,
-  });
 
   const [games, setGames] = useState<any[]>([]);
 
-  //const { games } = useSelector((state: any) => state.cart);
+  const { uxToUser } = useModalApp();
 
   useEffect(() => {
     async function getGames() {
@@ -47,7 +42,7 @@ export const AppRecentGames = () => {
           setApiResponse(data);
         });
       } catch (error) {
-        setMessageToUser({
+        uxToUser({
           title: "Request Error",
           description: "500 - Internal Server Error",
           color: "var(--red)",
@@ -67,28 +62,19 @@ export const AppRecentGames = () => {
           const { data } = response;
 
           setGames(data);
-          console.log(data);
         });
       } catch (error) {
-        alert(error);
+        uxToUser({
+          title: "Request Error",
+          description: "Error ao buscar seus dados.",
+          color: "var(--red)",
+          active: true,
+        });
       }
     }
     setIsLoading(false);
     getBets();
   }, []);
-
-  const toggleModal = () => {
-    setMessageToUser({ title: "", description: "", color: "", active: false });
-  };
-
-  const modal = (
-    <ModalError
-      color={messageToUser.color}
-      title={messageToUser.title}
-      description={messageToUser.description}
-      onClickClose={toggleModal}
-    />
-  );
 
   const handleButtonGameMode = (gameType: string) => {
     setIsLoading(true);
@@ -101,7 +87,6 @@ export const AppRecentGames = () => {
 
   return (
     <>
-      {messageToUser.active && modal}
       {isLoading ? (
         <LoadingSpinner />
       ) : (

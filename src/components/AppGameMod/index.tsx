@@ -1,27 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { CartActions } from "../../store/cartSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { IoCartOutline } from "react-icons/io5";
 import { BsTrash } from "react-icons/bs";
 import { Container, GridBet, GridCart, Title, Grid, CartItem } from "./styles";
 import { formatNumberInArray, currencyValue } from "../../utils";
-import { ModalError } from "../ModalError";
 import { GameTypesProps } from "../../@types/GameTypes";
 import { api } from "../../services/api";
 import { LoadingSpinner } from "../LoadingSpiner";
 import { GameToAddCartProps } from "../../@types/CartTypes";
 import { EmptyCart } from "../EmptyCart";
-import { ErrorProps } from "../../@types/Error";
-import { useHistory } from "react-router-dom";
 import { AppGameInputNumbers } from "../AppGameInputNumbers";
 import { AppGamesApiResponse } from "../AppGamesApiResponse";
 import { Footer } from "../Footer";
+import { useModalApp } from "../../hooks/ModalContext";
 
 export const AppGameMod = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [apiReponse, setApiResponse] = useState<GameTypesProps[]>([]);
-  const [redirect, setRedirect] = useState(false);
   const [gameChoice, setGameChoice] = useState<GameTypesProps>({
     id: 0,
     type: "",
@@ -35,14 +30,8 @@ export const AppGameMod = () => {
   const [selectedNumbers, setSelectedNumbers] = useState<string[]>([]);
   const [cartsGames, setCartGames] = useState<GameToAddCartProps[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [messageToUser, setMessageToUser] = useState<ErrorProps>({
-    title: "",
-    description: "",
-    color: "",
-    active: false,
-  });
-  const { push } = useHistory();
-  const dispatch = useDispatch();
+
+  const { uxToUser } = useModalApp();
 
   useEffect(() => {
     async function getGames() {
@@ -61,7 +50,7 @@ export const AppGameMod = () => {
           setGameChoice(initalGame[0]);
         });
       } catch (error) {
-        setMessageToUser({
+        uxToUser({
           title: "Request Error",
           description: "500 - Internal Server Error",
           color: "var(--red)",
@@ -71,16 +60,15 @@ export const AppGameMod = () => {
     }
     setIsLoading(false);
     getGames();
-  }, []);
+  }, [uxToUser]);
 
   //Total Game Price
   useEffect(() => {
     const total = cartsGames.reduce((sumTotal, games) => {
-      return sumTotal + games.price;
+      return sumTotal + Number(games.price);
     }, 0);
 
     setTotalPrice(total);
-    console.log(totalPrice);
   }, [cartsGames]);
 
   const handleButtonGameMode = (gameType: string) => {
@@ -113,17 +101,17 @@ export const AppGameMod = () => {
           );
         }
       } catch (error) {
-        setRedirect(false);
-        setMessageToUser({
+        uxToUser({
           title: "☹ Numeros Selecionados",
           description: error.message,
           color: "var(--red)",
           active: true,
+          redirect: false,
         });
       }
     },
 
-    [selectedNumbers, gameChoice]
+    [selectedNumbers, gameChoice, uxToUser]
   );
 
   const handlerClearSelectedNumbers = () => {
@@ -148,21 +136,22 @@ export const AppGameMod = () => {
         setSelectedNumbers((prevState) => [...prevState, ...selectArray]);
       }
     } catch (error) {
-      setRedirect(false);
-      setMessageToUser({
+      uxToUser({
         title: error.message,
         description: `Para o game ${gameChoice.type}, a quantidade maxima é ${gameChoice["max-number"]}`,
         color: "var(--red)",
         active: true,
+        redirect: false,
       });
     }
   };
 
   const handlerAddCart = () => {
     try {
-      const { type, price, color } = gameChoice;
+      const { type, price, color, id } = gameChoice;
       const numbersChoice = [...selectedNumbers].map((el) => Number(el));
       const newCartGame: GameToAddCartProps = {
+        game_id: id,
         id: String(new Date().getTime()),
         type,
         gameNumbers: numbersChoice,
@@ -173,14 +162,14 @@ export const AppGameMod = () => {
 
       if (numbersChoice.length !== gameChoice["max-number"]) {
         throw new Error(
-          `Voce nao adicionou a quantidade de numeros do game, ${gameChoice["max-number"]}`
+          `Voce nao adicionou a quantidade de numeros do game , ${gameChoice.type} , ${gameChoice["max-number"]}`
         );
       }
-
+      console.log(newCartGame.gameNumbers);
       setCartGames((prevState) => [...prevState, newCartGame]);
       setSelectedNumbers([]);
     } catch (error) {
-      setMessageToUser({
+      uxToUser({
         title: "Ocorreu um erro !",
         description: error.message,
         color: "var(--red)",
@@ -193,10 +182,12 @@ export const AppGameMod = () => {
     setCartGames((prevState) => prevState.filter((game) => game.id !== id));
   };
 
-  const saveGame = () => {
+  const saveGame = async () => {
+    setIsLoading(true);
     try {
       if (totalPrice < 30) {
         const minPrice = gameChoice["min-cart-value"];
+        setIsLoading(false);
         throw new Error(
           `Valor minimo para salvar o game nao atingido: ${currencyValue(
             minPrice
@@ -204,45 +195,46 @@ export const AppGameMod = () => {
         );
       }
 
+      const cart: any = [];
+
       cartsGames.forEach((game) => {
-        dispatch(CartActions.addItemToCart(game));
+        cart.push({
+          game_id: game.game_id,
+          numbers: game.gameNumbers.toString(),
+          price: Number(game.price),
+        });
       });
+
+      const response = await api.post("/bets", {
+        cart,
+        totalPrice,
+      });
+
+      if (response.status !== 200) {
+        throw new Error(`Error ao enviar o game, tente novamente mais tarde.`);
+      }
+
       setCartGames([]);
-      setMessageToUser({
+      uxToUser({
         title: "Bet Realizada com Sucesso!",
         description: "Veja seu historico de apostas, acessando sua conta.",
         color: "var(--spinner)",
         active: true,
+        redirect: true,
       });
-      setRedirect(true);
     } catch (error) {
-      //Criar o modal para error, messages
-      setMessageToUser({
+      uxToUser({
         title: "Ocorreu um erro !",
         description: error.message,
         color: "var(--red)",
         active: true,
+        redirect: false,
       });
     }
   };
 
-  const toggleModal = () => {
-    setMessageToUser({ title: "", description: "", color: "", active: false });
-    redirect && push("/");
-  };
-
-  const modal = (
-    <ModalError
-      color={messageToUser.color}
-      title={messageToUser.title}
-      description={messageToUser.description}
-      onClickClose={toggleModal}
-    />
-  );
-
   return (
     <Container>
-      {messageToUser.active && modal}
       {isLoading ? (
         <LoadingSpinner />
       ) : (

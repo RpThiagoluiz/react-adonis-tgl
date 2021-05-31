@@ -16,7 +16,7 @@ export const BackDrop = styled.div`
 export const CardWrapper = styled.div<ColorProps>`
   position: fixed;
   top: 30vh;
-  left: 50vw;
+  left: 30vw;
   z-index: 100;
   //overflow: hidden;
 

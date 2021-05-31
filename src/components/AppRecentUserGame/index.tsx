@@ -1,8 +1,4 @@
-import {
-  currencyValue,
-  dateFormatValue,
-  formatNumberApiResponse,
-} from "../../utils";
+import { currencyValue, dateFormatValue } from "../../utils";
 import { EmptyCart } from "../EmptyCart";
 import { BetApiResponse } from "../../@types/CartTypes";
 import { CartItem, EmptyContainer } from "./styles";
@@ -19,8 +15,6 @@ export const AppRecentUserGame = ({
   filter,
 }: AppRecentUserGameProps) => {
   const [filterGame, setFilterGame] = useState("");
-  //Check, Se nao existir filtro, vc da o render em todos os jogos.
-  //Caso exista vc tras somente os que tem o msm tipo
 
   useEffect(() => {
     setFilterGame(filter.type);
@@ -31,7 +25,7 @@ export const AppRecentUserGame = ({
       return !!games.length ? (
         games.map((game: any) => (
           <CartItem key={game.id} color={game.game.color}>
-            <p>{formatNumberApiResponse(game.numbers)}</p>
+            <p>{game.numbers}</p>
             <div>
               <p>
                 {dateFormatValue(new Date(game.updated_at))} - (
