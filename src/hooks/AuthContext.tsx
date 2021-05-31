@@ -8,12 +8,12 @@ interface TokenData {
 }
 
 interface AuthContextData {
-  emailLogged: string;
+  userEmail: string;
   token: TokenData;
   logged: boolean;
   signIn: ({ email, password }: UserData) => Promise<void>;
   signOut: () => void;
-  //updateUser(userData: UserData): Promise<void>;
+  updateUser(userData: UserData): Promise<void>;
 }
 
 interface AuthProviderProps {
@@ -29,10 +29,10 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     return !!isLogged;
   });
 
-  const [emailLogged, setEmailLogged] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [token, setToken] = useState<TokenData>(() => {
     const token = localStorage.getItem("@tgl-labluby-devthiago");
-    //Ajudado
+
     if (token) {
       api.defaults.headers.Authorization = `Bearer ${token}`;
 
@@ -54,12 +54,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       const { token } = response.data.token;
       const user = response.data.user;
       //back devolvendo os dados do user, voltar somente email por la qlq coisa
-      setEmailLogged(user.email);
+
+      setUserEmail(user.email);
       setToken(token);
       setLogged(true);
 
       //Save on localStorage
       localStorage.setItem("@tgl-labluby-devthiago", token);
+      localStorage.setItem("@tgl-labluby-devthiago-user", user);
       api.defaults.headers.Authorization = `Bearer ${token}`;
     } catch (error) {
       alert(error.response);
@@ -68,13 +70,26 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signOut = () => {
     localStorage.removeItem("@tgl-labluby-devthiago");
+    localStorage.removeItem("@tgl-labluby-devthiago-user");
     setToken({} as TokenData);
     setLogged(false);
   };
 
+  const updateUser = async (userData: any) => {
+    try {
+      await api.put("/users ", {
+        name: userData.username,
+        email: userData.email,
+        password: userData.password,
+      });
+    } catch (err) {
+      alert("Erro ao atualizar perfil!");
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ emailLogged, token, logged, signIn, signOut }}
+      value={{ userEmail, token, logged, signIn, signOut, updateUser }}
     >
       {children}
     </AuthContext.Provider>

@@ -18,3 +18,14 @@ export interface UserData {
   email: string;
   password: string;
 }
+
+export interface UserApiReturn {
+  created_at: Date;
+  email: string;
+  id: number;
+  password: string;
+  token: string;
+  token_created_at: Date;
+  updated_at: Date;
+  username: string;
+}

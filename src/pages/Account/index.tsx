@@ -1,1 +1,3 @@
-export const Account = () => <h1>AcountPage</h1>;
+import { AppAccount } from "../../components/AppAccount";
+
+export const Account = () => <AppAccount />;
