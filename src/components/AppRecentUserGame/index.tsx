@@ -1,16 +1,17 @@
 import {
   currencyValue,
   dateFormatValue,
+  formatNumberApiResponse,
   formatNumberInArray,
 } from "../../utils";
 import { EmptyCart } from "../EmptyCart";
-import { GameToAddCartProps } from "../../@types/CartTypes";
+import { BetApiResponse } from "../../@types/CartTypes";
 import { CartItem, EmptyContainer } from "./styles";
 import { GameTypesProps } from "../../@types/GameTypes";
 import { useEffect, useState } from "react";
 
 interface AppRecentUserGameProps {
-  games: GameToAddCartProps[];
+  games: BetApiResponse[];
   filter: GameTypesProps;
 }
 
@@ -26,39 +27,19 @@ export const AppRecentUserGame = ({
     setFilterGame(filter.type);
   }, [filter]);
 
-  // const userGames = () =>
-  //   !!games.length ? (
-  //     games.map((game: any) => (
-  //       <CartItem key={game.id} color={game.color}>
-  //         <p>{formatNumberInArray(game.gameNumbers)}</p>
-  //         <div>
-  //           <p>
-  //             {dateFormatValue(new Date(game.betDate))} - (
-  //             {currencyValue(game.price)})
-  //           </p>
-  //         </div>
-  //         <strong>{game.type}</strong>
-  //       </CartItem>
-  //     ))
-  //   ) : (
-  //     <EmptyContainer>
-  //       <EmptyCart color="var(--red)" />
-  //     </EmptyContainer>
-  //   );
-
   const filteredGames = () => {
-    if (filterGame === "") {
+    if (filterGame === "" || games.length === 0) {
       return !!games.length ? (
         games.map((game: any) => (
-          <CartItem key={game.id} color={game.color}>
-            <p>{formatNumberInArray(game.gameNumbers)}</p>
+          <CartItem key={game.id} color={game.game.color}>
+            <p>{formatNumberApiResponse(game.numbers)}</p>
             <div>
               <p>
-                {dateFormatValue(new Date(game.betDate))} - (
+                {dateFormatValue(new Date(game.updated_at))} - (
                 {currencyValue(game.price)})
               </p>
             </div>
-            <strong>{game.type}</strong>
+            <strong>{game.game.type}</strong>
           </CartItem>
         ))
       ) : (
@@ -67,13 +48,13 @@ export const AppRecentUserGame = ({
         </EmptyContainer>
       );
     } else if (games && filter) {
-      const filterGame = games.filter((game) => game.type === filter.type);
+      const filterGame = games.filter((game) => game.game.type === filter.type);
       return filterGame.map((game: any) => (
-        <CartItem key={game.id} color={game.color}>
-          <p>{formatNumberInArray(game.gameNumbers)}</p>
+        <CartItem key={game.id} color={game.game.color}>
+          <p>{game.numbers}</p>
           <div>
             <p>
-              {dateFormatValue(new Date(game.betDate))} - (
+              {dateFormatValue(new Date(game.updated_at))} - (
               {currencyValue(game.price)})
             </p>
           </div>

@@ -32,13 +32,15 @@ export const AppRecentGames = () => {
     active: false,
   });
 
-  const { games } = useSelector((state: any) => state.cart);
+  const [games, setGames] = useState<any[]>([]);
+
+  //const { games } = useSelector((state: any) => state.cart);
 
   useEffect(() => {
     async function getGames() {
       setIsLoading(true);
       try {
-        await api.get<GameTypesProps[]>("/types").then((response) => {
+        await api.get<GameTypesProps[]>("/game").then((response) => {
           const { data } = response;
 
           setIsLoading(false);
@@ -55,6 +57,24 @@ export const AppRecentGames = () => {
     }
     setIsLoading(false);
     getGames();
+  }, []);
+
+  useEffect(() => {
+    async function getBets() {
+      setIsLoading(true);
+      try {
+        await api.get("/bets").then((response) => {
+          const { data } = response;
+
+          setGames(data);
+          console.log(data);
+        });
+      } catch (error) {
+        alert(error);
+      }
+    }
+    setIsLoading(false);
+    getBets();
   }, []);
 
   const toggleModal = () => {

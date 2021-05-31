@@ -58,8 +58,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       setToken(token);
       setLogged(true);
 
-      console.log(token);
-
       //Save on localStorage
       localStorage.setItem("@tgl-labluby-devthiago", token);
       api.defaults.headers.Authorization = `Bearer ${token}`;

@@ -78,7 +78,9 @@ export const AppGameMod = () => {
     const total = cartsGames.reduce((sumTotal, games) => {
       return sumTotal + games.price;
     }, 0);
+
     setTotalPrice(total);
+    console.log(totalPrice);
   }, [cartsGames]);
 
   const handleButtonGameMode = (gameType: string) => {
