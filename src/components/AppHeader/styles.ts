@@ -5,14 +5,23 @@ export const Header = styled.header`
   position: relative;
   border-bottom: 1px solid var(--shape);
   padding: 0 14rem 0 8em;
+  opacity: 0.8;
+
   > nav {
     display: flex;
     align-items: center;
     padding: 1rem;
-    > h2 {
+
+    > a {
+      text-decoration: none;
       color: var(--gray-700);
-      font-size: 2.75rem;
+      font-size: 1.75rem;
       margin-right: 3.625rem;
+    }
+
+    .navlink-active {
+      opacity: 1;
+
       ::before {
         content: "";
         width: 5.5rem;

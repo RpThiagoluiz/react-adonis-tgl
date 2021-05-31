@@ -14,16 +14,20 @@ export const AppHeader = () => {
   return (
     <Header>
       <nav>
-        <h2>TGL</h2>
+        <NavLink exact to="/" activeClassName="navlink-active">
+          <h2>TGL</h2>
+        </NavLink>
         <BurguerMenu className={`${burguerMenu && "active"}`}>
           <button className={`btn-mobile`} onClick={handleToggleMenuMobile}>
             Menu
           </button>
           <div className={`header-nav-div-center`}>
-            <NavLink exact to="/newbet">
+            <NavLink exact to="/newbet" activeClassName="navlink-active">
               Home
             </NavLink>
-            <NavLink to="/">Account</NavLink>
+            <NavLink to="/account" activeClassName="navlink-active">
+              Account
+            </NavLink>
           </div>
 
           <div className={`header-nav-div-end `} onClick={signOut}>

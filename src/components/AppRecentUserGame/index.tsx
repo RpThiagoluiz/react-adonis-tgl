@@ -2,7 +2,6 @@ import {
   currencyValue,
   dateFormatValue,
   formatNumberApiResponse,
-  formatNumberInArray,
 } from "../../utils";
 import { EmptyCart } from "../EmptyCart";
 import { BetApiResponse } from "../../@types/CartTypes";
