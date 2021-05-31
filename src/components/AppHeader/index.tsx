@@ -1,19 +1,12 @@
-import { useDispatch } from "react-redux";
-import { UserActions } from "../../store/userSlice";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import { Header, BurguerMenu } from "./styles";
 import { useState } from "react";
+import { useAuth } from "../../hooks/AuthContext";
 
 export const AppHeader = () => {
   const [burguerMenu, setBurgerMenu] = useState(false);
-  const dispatch = useDispatch();
-
-  const logoutHandler = () => {
-    const { logOut } = UserActions;
-
-    dispatch(logOut());
-  };
+  const { signOut } = useAuth();
 
   const handleToggleMenuMobile = () => {
     setBurgerMenu(!burguerMenu);
@@ -33,7 +26,7 @@ export const AppHeader = () => {
             <NavLink to="/">Account</NavLink>
           </div>
 
-          <div className={`header-nav-div-end `} onClick={logoutHandler}>
+          <div className={`header-nav-div-end `} onClick={signOut}>
             <NavLink to="/">
               Log out <HiOutlineArrowRight />
             </NavLink>

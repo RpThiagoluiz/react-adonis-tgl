@@ -1,18 +1,16 @@
 import { BrowserRouter } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Footer } from "../components/Footer";
 import { AuthRoutes } from "./auth.routes";
 import { AppRoutes } from "./app.routes";
 import { AppHeader } from "../components/AppHeader";
-
-//Header so vai aparecer quando o usuario estiver logado.
+import { useAuth } from "../hooks/AuthContext";
 
 export const Routes = () => {
-  const user = useSelector((state: any) => state.user);
+  const { logged } = useAuth();
 
   return (
     <BrowserRouter>
-      {user.isLogged ? (
+      {logged ? (
         <>
           <AppHeader /> <AppRoutes />
         </>

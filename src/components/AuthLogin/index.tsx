@@ -1,13 +1,10 @@
 import { Link } from "react-router-dom";
 import { HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
-import { useDispatch, useSelector } from "react-redux";
-import { UserActions } from "../../store/userSlice";
-import { FormEvent, useEffect, useRef, useState } from "react";
-import { UserProps } from "../../@types/User";
+import { FormEvent, useRef, useState } from "react";
 import { ErrorProps } from "../../@types/Error";
 import { AuthToast } from "../AuthToast";
-import { api } from "../../services/api";
+import { useAuth } from "../../hooks/AuthContext";
 
 export const AuthLogin = () => {
   const [messageToUser, setMessageToUser] = useState<ErrorProps>({
@@ -17,33 +14,38 @@ export const AuthLogin = () => {
     active: false,
   });
 
-  const dispatch = useDispatch();
-  const { users } = useSelector((state: any) => state.user);
-  const { logIn } = UserActions;
+  const { signIn } = useAuth();
+
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     const email = emailInputRef.current?.value;
     const password = passwordInputRef.current?.value;
     event.preventDefault();
 
     try {
       if (email && password) {
-        if (email && password) {
-          const findUser = users.find(
-            (user: UserProps) => user.email === email
-          );
+        const user = {
+          email,
+          password,
+        };
 
-          if (!findUser) {
-            throw new Error("Usuario não existe");
-          }
-          if (findUser.password !== password && findUser.email !== email) {
-            throw new Error("Dados nao conferem!!!");
-          } else {
-            dispatch(logIn());
-          }
-        }
+        await signIn(user);
+        // if (email && password) {
+        //   const findUser = users.find(
+        //     (user: UserProps) => user.email === email
+        //   );
+
+        //   if (!findUser) {
+        //     throw new Error("Usuario não existe");
+        //   }
+        //   if (findUser.password !== password && findUser.email !== email) {
+        //     throw new Error("Dados nao conferem!!!");
+        //   } else {
+        //     dispatch(logIn());
+        //   }
+        // }
       }
     } catch (error) {
       setMessageToUser({
@@ -91,6 +93,23 @@ export const AuthLogin = () => {
     }
   };
 
+  const onBlurPassword = () => {
+    if (passwordInputRef.current?.value) {
+      try {
+        if (passwordInputRef.current?.value.length < 6) {
+          throw new Error(`Password deve conter pelo menos 6 caracteres`);
+        }
+      } catch (error) {
+        setMessageToUser({
+          title: "Password Invalido",
+          description: error.message,
+          color: "var(--red)",
+          active: true,
+        });
+      }
+    }
+  };
+
   return (
     <Container>
       {messageToUser.active && toast}
@@ -113,6 +132,7 @@ export const AuthLogin = () => {
             id="password"
             required
             ref={passwordInputRef}
+            onBlur={() => onBlurPassword()}
           />
         </FormContent>
         <Link to="/forgotpassword">I forget my password</Link>

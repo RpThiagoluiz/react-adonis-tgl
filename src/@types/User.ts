@@ -13,3 +13,8 @@ export interface UserProps {
   password: string;
   recentGames?: SavedGame[];
 }
+
+export interface UserData {
+  email: string;
+  password: string;
+}

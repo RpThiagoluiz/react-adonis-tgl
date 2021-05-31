@@ -2,7 +2,6 @@ import { useHistory } from "react-router-dom";
 import { HiOutlineArrowLeft, HiOutlineArrowRight } from "react-icons/hi";
 import { Container, Form, FormContent } from "./styles";
 import { FormEvent, useCallback, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import { UserProps } from "../../@types/User";
 import { ErrorProps } from "../../@types/Error";
 import { AuthToast } from "../AuthToast";
@@ -31,79 +30,74 @@ export const AuthRegistration = () => {
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   const { push } = useHistory();
-  const dispatch = useDispatch();
-  //const { addUser } = UserActions;
 
   const handlerBackButton = () => {
     push("/");
   };
 
-  const handleSubmit = useCallback(
-    async (event: FormEvent) => {
-      const name = nameInputRef.current?.value;
-      const email = emailInputRef.current?.value;
-      const password = passwordInputRef.current?.value;
-      event.preventDefault();
-      setLoading(true);
+  const handleSubmit = useCallback(async (event: FormEvent) => {
+    const name = nameInputRef.current?.value;
+    const email = emailInputRef.current?.value;
+    const password = passwordInputRef.current?.value;
+    event.preventDefault();
+    setLoading(true);
 
-      const sendData = async (user: UserProps) => {
-        const response = await api.post("/users", {
-          username: user.name,
-          email: user.email,
-          password: user.password,
-        });
-        return response;
-      };
+    const sendData = async (user: UserProps) => {
+      const response = await api.post("/users", {
+        username: user.name,
+        email: user.email,
+        password: user.password,
+      });
+      return response;
+    };
 
-      try {
-        if (name && email && password) {
-          const enteredName = isEmptyName(name);
-          const enteredEmail = isEmptyEmail(email) && isValidRegex(email);
-          const enteredPassword = isMinChars(password);
+    try {
+      if (name && email && password) {
+        const enteredName = isEmptyName(name);
+        const enteredEmail = isEmptyEmail(email) && isValidRegex(email);
+        const enteredPassword = isMinChars(password);
 
-          const formIsValid = enteredName && enteredEmail && enteredPassword;
+        const formIsValid = enteredName && enteredEmail && enteredPassword;
 
-          if (formIsValid) {
-            const userData: UserProps = {
-              name,
-              email,
-              password,
-            };
+        if (formIsValid) {
+          const userData: UserProps = {
+            name,
+            email,
+            password,
+          };
 
-            await sendData(userData);
+          await sendData(userData);
 
-            if (!sendData(userData)) {
-              throw new Error("BRABO DEU CERTO! nao cadastrado");
-            }
-            setLoading(false);
-            setMessageToUser({
-              title: `Ola,${userData.name}`,
-              description:
-                "Seu cadastrado foi realizado com sucesso, aproveite! 🎉 ",
-              color: "var(--green)",
-              active: true,
-            });
-
-            setRedirect(true);
-          } else {
-            return;
+          if (!sendData(userData)) {
+            throw new Error("BRABO DEU CERTO! nao cadastrado");
           }
+          setLoading(false);
+          setMessageToUser({
+            title: `Ola,${userData.name}`,
+            description:
+              "Seu cadastrado foi realizado com sucesso, aproveite! 🎉 ",
+            color: "var(--green)",
+            active: true,
+          });
+
+          setRedirect(true);
         } else {
           return;
         }
-      } catch (error) {
-        setLoading(false);
-        setMessageToUser({
-          title: "Ocorreu um durante o cadastro !",
-          description: `Email ja cadastrado, caso tenha esquecido a senha, basta acessar "forgotPassword" na tela inicial e seguir os passos. Ou cadastrar um novo email.`,
-          color: "var(--red)",
-          active: true,
-        });
-        setRedirect(false);
+      } else {
+        return;
       }
-    },
-    [dispatch]
-  );
+    } catch (error) {
+      setLoading(false);
+      setMessageToUser({
+        title: "Ocorreu um durante o cadastro !",
+        description: `Email ja cadastrado, caso tenha esquecido a senha, basta acessar "forgotPassword" na tela inicial e seguir os passos. Ou cadastrar um novo email.`,
+        color: "var(--red)",
+        active: true,
+      });
+      setRedirect(false);
+    }
+  }, []);
 
   const toggletToast = () => {
     setMessageToUser({ title: "", description: "", color: "", active: false });
