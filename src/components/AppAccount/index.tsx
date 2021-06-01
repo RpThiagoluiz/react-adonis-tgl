@@ -224,6 +224,7 @@ export const AppAccount = () => {
                 type="text"
                 id="name"
                 required
+                defaultValue={userData?.username}
                 ref={nameInputRef}
                 onBlur={() => onBlurName()}
               />
@@ -233,6 +234,7 @@ export const AppAccount = () => {
                 type="email"
                 id="email"
                 required
+                defaultValue={userData?.email}
                 ref={emailInputRef}
                 onBlur={() => onBlurEmail()}
               />
